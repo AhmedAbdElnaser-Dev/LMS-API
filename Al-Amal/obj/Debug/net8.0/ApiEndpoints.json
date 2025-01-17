@@ -17,6 +17,26 @@
   },
   {
     "ContainingType": "Al_Amal.Controllers.UsersController",
+    "Method": "Logout",
+    "RelativePath": "api/users/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Al_Amal.Controllers.UsersController",
+    "Method": "GetCurrentUser",
+    "RelativePath": "api/users/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Al_Amal.Controllers.UsersController",
     "Method": "Register",
     "RelativePath": "api/users/register",
     "HttpMethod": "POST",

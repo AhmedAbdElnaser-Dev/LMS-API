@@ -1,66 +1,111 @@
 ﻿using Al_Amal.Data;
 using Al_Amal.DTOs;
 using Al_Amal.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace Al_Amal.Services
+namespace Al_Amal.Services;
+
+public class UserService : IUserService
 {
-    public class UserService
+    private readonly ApplicationDBContext _dbContext;
+    private readonly PasswordHasher<User> _passwordHasher;
+    private readonly ITokenService _tokenService;
+
+    public UserService(ApplicationDBContext dbContext, ITokenService tokenService)
     {
-        private readonly ApplicationDBContext _dbContext;
+        _dbContext = dbContext;
+        _passwordHasher = new PasswordHasher<User>();
+        _tokenService = tokenService;
+    }
 
-        public UserService(ApplicationDBContext dbContext)
+    public async Task<bool> RegisterUserAsync(UserRegisterDTO userDto)
+    {
+        if (await _dbContext.Users.AnyAsync(u =>
+            u.Email == userDto.Email ||
+            u.TelegramNumber == userDto.Telegram ||
+            u.PhoneNumber == userDto.Phone))
         {
-            _dbContext = dbContext;
+            return false;
         }
 
-        public async Task<bool> RegisterUserAsync(UserRegisterDTO userDto)
+        var user = new User
         {
-            if (await _dbContext.Users.AnyAsync(u => u.Email == userDto.Email || u.Telegram == userDto.Telegram || u.Phone == u.Phone))
-                return false; 
+            Id = Guid.NewGuid(),
+            Name = userDto.Name,
+            Age = userDto.Age,
+            Email = userDto.Email,
+            Gender = userDto.Gender,
+            PhoneNumber = userDto.Phone,
+            TelegramNumber = userDto.Telegram,
+            Timezone = userDto.TimeZone,
+            Country = userDto.Country,
+            RoleId = await GetDefaultRoleId()
+        };
 
-            var hashedPassword = HashPassword(userDto.Password);
+        user.Password = _passwordHasher.HashPassword(user, userDto.Password);
 
-            var user = new User
+        await _dbContext.Users.AddAsync(user);
+        await _dbContext.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<(User? User, string? Token)> AuthenticateUserAsync(UserLoginDTO loginDto)
+    {
+        var user = await _dbContext.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+
+        if (user == null)
+            return (null, null);
+
+        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, loginDto.Password);
+        if (result != PasswordVerificationResult.Success)
+            return (null, null);
+
+        var permissions = await GetUserPermissionsAsync(user.Id);
+        var token = _tokenService.GenerateJwtToken(user, permissions);
+
+        return (user, token);
+    }
+
+    public async Task<User?> GetUserByIdAsync(Guid id)
+    {
+        return await _dbContext.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<IList<string>> GetUserPermissionsAsync(Guid userId)
+    {
+        var user = await _dbContext.Users
+            .Include(u => u.Role)
+            .ThenInclude(r => r.Permissions)
+            .ThenInclude(rp => rp.Permission)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+            return new List<string>();
+
+        return user.Role.Permissions
+            .Select(rp => rp.Permission.SystemName)
+            .ToList();
+    }
+
+    private async Task<Guid> GetDefaultRoleId()
+    {
+        var studentRole = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Student");
+        if (studentRole == null)
+        {
+            studentRole = new Role
             {
-                Name = userDto.Name,
-                Age = userDto.Age,
-                Email = userDto.Email,
-                Password = hashedPassword,
-                Gender = userDto.Gender,
-                Phone = userDto.Phone,
-                Telegram = userDto.Telegram,
-                TimeZone = userDto.TimeZone,
-                Country = userDto.Country
+                Id = Guid.NewGuid(),
+                Name = "Student",
+                Description = "Default role for new users"
             };
-
-            await _dbContext.Users.AddAsync(user);
+            await _dbContext.Roles.AddAsync(studentRole);
             await _dbContext.SaveChangesAsync();
-            return true;
         }
-
-        public async Task<User?> AuthenticateUserAsync(UserLoginDTO loginDto)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
-            if (user == null || !VerifyPassword(loginDto.Password, user.Password))
-                return null;
-
-            return user;
-        }
-
-        private string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
-        }
-
-        private bool VerifyPassword(string inputPassword, string storedHashedPassword)
-        {
-            var hashedInput = HashPassword(inputPassword);
-            return hashedInput == storedHashedPassword;
-        }
+        return studentRole.Id;
     }
 }

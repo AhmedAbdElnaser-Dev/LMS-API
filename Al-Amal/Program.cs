@@ -1,25 +1,64 @@
-using Al_Amal;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Al_Amal.Data;
 using Al_Amal.Services;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<AttachmentsOptions>(builder.Configuration.GetSection("AttachmentsOptions"));
-
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-// Add DbContext with a connection string
+// Add DbContext
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Depandancies
-builder.Services.AddScoped<UserService>();
+// Configure JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!)),
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+        // Enable reading JWT token from cookie
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["jwt_token"];
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+// Register services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
