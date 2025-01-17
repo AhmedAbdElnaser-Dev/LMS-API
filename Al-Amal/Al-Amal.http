@@ -1,0 +1,6 @@
+@Al_Amal_HostAddress = http://localhost:5016
+
+GET {{Al_Amal_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
