@@ -5,6 +5,6 @@ namespace Al_Amal.Services;
 
 public interface ITokenService
 {
-    string GenerateJwtToken(User user, IList<string> permissions);
+    string GenerateJwtToken(ApplicationUser user, IList<string> roles, IList<string> permissions);
     ClaimsPrincipal? ValidateToken(string token);
 }

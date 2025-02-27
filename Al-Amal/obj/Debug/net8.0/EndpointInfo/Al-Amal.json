@@ -67,7 +67,7 @@
         }
       }
     },
-    "/api/users/me": {
+    "/api/users/verify": {
       "get": {
         "tags": [
           "Users"
@@ -111,7 +111,11 @@
       "UserRegisterDTO": {
         "type": "object",
         "properties": {
-          "name": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
             "type": "string",
             "nullable": true
           },

@@ -2,6 +2,7 @@
 using Al_Amal.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Al_Amal.Controllers;
 
@@ -22,9 +23,9 @@ public class UsersController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var result = await _userService.RegisterUserAsync(userDto);
-        if (!result)
-            return Conflict(new { message = "Email, phone, or telegram already exists." });
+        var (result, user) = await _userService.RegisterUserAsync(userDto);
+        if (!result.Succeeded)
+            return BadRequest(new { errors = result.Errors });
 
         return Ok(new { message = "Registration successful." });
     }
@@ -39,7 +40,6 @@ public class UsersController : ControllerBase
         if (user == null || token == null)
             return Unauthorized(new { message = "Invalid email or password." });
 
-        // Set JWT token in cookie
         Response.Cookies.Append("jwt_token", token, new CookieOptions
         {
             HttpOnly = true,
@@ -48,14 +48,29 @@ public class UsersController : ControllerBase
             Expires = DateTime.UtcNow.AddHours(1)
         });
 
-        return Ok(new { message = "Login successful.", user });
+        var userResponse = new UserResponseDTO
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Age = user.Age,
+            Email = user.Email ?? string.Empty,
+            Gender = user.Gender,
+            PhoneNumber = user.PhoneNumber,
+            TelegramNumber = user.TelegramNumber,
+            Timezone = user.Timezone,
+            Country = user.Country,
+            RoleName = (await _userService.GetUserRolesAsync(user)).FirstOrDefault() ?? string.Empty
+        };
+
+        return Ok(new { message = "Login successful.", user = userResponse });
     }
 
     [Authorize]
-    [HttpGet("me")]
+    [HttpGet("verify")]
     public async Task<IActionResult> GetCurrentUser()
     {
-        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out var userGuid))
             return Unauthorized();
 
@@ -63,8 +78,25 @@ public class UsersController : ControllerBase
         if (user == null)
             return NotFound();
 
-        var permissions = await _userService.GetUserPermissionsAsync(userGuid);
-        return Ok(new { user, permissions });
+        var roles = await _userService.GetUserRolesAsync(user);
+        var permissions = await _userService.GetUserPermissionsAsync(user);
+
+        var userResponse = new UserResponseDTO
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Age = user.Age,
+            Email = user.Email ?? string.Empty,
+            Gender = user.Gender,
+            PhoneNumber = user.PhoneNumber,
+            TelegramNumber = user.TelegramNumber,
+            Timezone = user.Timezone,
+            Country = user.Country,
+            RoleName = roles.FirstOrDefault() ?? string.Empty
+        };
+
+        return Ok(new { user = userResponse, permissions });
     }
 
     [HttpPost("logout")]

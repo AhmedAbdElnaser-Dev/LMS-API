@@ -1,17 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.;
+using Microsoft.EntityFrameworkCore;
 using Al_Amal.Models;
 
 namespace Al_Amal.Data;
 
-public class ApplicationDBContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
-    public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<User> Users { get; set; }
-    public DbSet<Role> Roles { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<RolePermission> RolePermissions { get; set; }
 
@@ -19,38 +18,42 @@ public class ApplicationDBContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<User>(entity =>
+        // Configure ApplicationUser
+        modelBuilder.Entity<ApplicationUser>(entity =>
         {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Email).IsRequired();
-            entity.Property(e => e.Password).IsRequired();
-            entity.HasOne(e => e.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(e => e.RoleId);
+            entity.Property(e => e.FirstName).IsRequired();
+            entity.Property(e => e.LastName).IsRequired();
+            entity.Property(e => e.Gender).IsRequired();
+            entity.Property(e => e.Timezone).IsRequired();
+            entity.Property(e => e.Country).IsRequired();
         });
 
-        modelBuilder.Entity<Role>(entity =>
+        // Configure ApplicationRole
+        modelBuilder.Entity<ApplicationRole>(entity =>
         {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Description).HasMaxLength(200);
         });
 
+        // Configure Permission
         modelBuilder.Entity<Permission>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.Property(e => e.Name).IsRequired();
-            entity.Property(e => e.SystemName).IsRequired();
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.SystemName).IsRequired().HasMaxLength(100);
         });
 
+        // Configure RolePermission
         modelBuilder.Entity<RolePermission>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.HasOne(e => e.Role)
                 .WithMany(r => r.Permissions)
-                .HasForeignKey(e => e.RoleId);
+                .HasForeignKey(e => e.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(e => e.Permission)
                 .WithMany(p => p.RolePermissions)
-                .HasForeignKey(e => e.PermissionId);
+                .HasForeignKey(e => e.PermissionId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

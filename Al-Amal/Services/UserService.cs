@@ -1,5 +1,4 @@
-﻿using Al_Amal.Data;
-using Al_Amal.DTOs;
+﻿using Al_Amal.DTOs;
 using Al_Amal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,104 +7,104 @@ namespace Al_Amal.Services;
 
 public class UserService : IUserService
 {
-    private readonly ApplicationDBContext _dbContext;
-    private readonly PasswordHasher<User> _passwordHasher;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ITokenService _tokenService;
 
-    public UserService(ApplicationDBContext dbContext, ITokenService tokenService)
+    public UserService(
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager,
+        SignInManager<ApplicationUser> signInManager,
+        ITokenService tokenService)
     {
-        _dbContext = dbContext;
-        _passwordHasher = new PasswordHasher<User>();
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _signInManager = signInManager;
         _tokenService = tokenService;
     }
 
-    public async Task<bool> RegisterUserAsync(UserRegisterDTO userDto)
+    public async Task<(IdentityResult Result, ApplicationUser? User)> RegisterUserAsync(UserRegisterDTO userDto)
     {
-        if (await _dbContext.Users.AnyAsync(u =>
-            u.Email == userDto.Email ||
-            u.TelegramNumber == userDto.Telegram ||
-            u.PhoneNumber == userDto.Phone))
+        var user = new ApplicationUser
         {
-            return false;
-        }
-
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Name = userDto.Name,
-            Age = userDto.Age,
+            UserName = userDto.Email,
             Email = userDto.Email,
+            FirstName = userDto.FirstName,
+            LastName = userDto.LastName,
+            Age = userDto.Age,
             Gender = userDto.Gender,
             PhoneNumber = userDto.Phone,
             TelegramNumber = userDto.Telegram,
             Timezone = userDto.TimeZone,
-            Country = userDto.Country,
-            RoleId = await GetDefaultRoleId()
+            Country = userDto.Country
         };
 
-        user.Password = _passwordHasher.HashPassword(user, userDto.Password);
+        var result = await _userManager.CreateAsync(user, userDto.Password);
+        if (result.Succeeded)
+        {
+            if (!await _roleManager.RoleExistsAsync("Student"))
+            {
+                await _roleManager.CreateAsync(new ApplicationRole
+                {
+                    Name = "Student",
+                    Description = "Default role for new users"
+                });
+            }
+            await _userManager.AddToRoleAsync(user, "Student");
+            return (result, user);
+        }
 
-        await _dbContext.Users.AddAsync(user);
-        await _dbContext.SaveChangesAsync();
-        return true;
+        return (result, null);
     }
 
-    public async Task<(User? User, string? Token)> AuthenticateUserAsync(UserLoginDTO loginDto)
+    public async Task<(ApplicationUser? User, string? Token)> AuthenticateUserAsync(UserLoginDTO loginDto)
     {
-        var user = await _dbContext.Users
-            .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.Email == loginDto.Email);
-
+        var user = await _userManager.FindByEmailAsync(loginDto.Email);
         if (user == null)
             return (null, null);
 
-        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, loginDto.Password);
-        if (result != PasswordVerificationResult.Success)
+        var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+        if (!result.Succeeded)
             return (null, null);
 
-        var permissions = await GetUserPermissionsAsync(user.Id);
-        var token = _tokenService.GenerateJwtToken(user, permissions);
+        var roles = await GetUserRolesAsync(user);
+        var permissions = await GetUserPermissionsAsync(user);
+        var token = _tokenService.GenerateJwtToken(user, roles, permissions);
 
         return (user, token);
     }
 
-    public async Task<User?> GetUserByIdAsync(Guid id)
+    public async Task<ApplicationUser?> GetUserByIdAsync(Guid id)
     {
-        return await _dbContext.Users
-            .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.Id == id);
+        return await _userManager.FindByIdAsync(id.ToString());
     }
 
-    public async Task<IList<string>> GetUserPermissionsAsync(Guid userId)
+    public async Task<IList<string>> GetUserRolesAsync(ApplicationUser user)
     {
-        var user = await _dbContext.Users
-            .Include(u => u.Role)
-            .ThenInclude(r => r.Permissions)
-            .ThenInclude(rp => rp.Permission)
-            .FirstOrDefaultAsync(u => u.Id == userId);
-
-        if (user == null)
-            return new List<string>();
-
-        return user.Role.Permissions
-            .Select(rp => rp.Permission.SystemName)
-            .ToList();
+        return await _userManager.GetRolesAsync(user);
     }
 
-    private async Task<Guid> GetDefaultRoleId()
+    public async Task<IList<string>> GetUserPermissionsAsync(ApplicationUser user)
     {
-        var studentRole = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Student");
-        if (studentRole == null)
+        var roles = await GetUserRolesAsync(user);
+        var permissions = new List<string>();
+
+        // Here you would implement your permission logic based on roles
+        // This is just a placeholder - implement according to your needs
+        foreach (var role in roles)
         {
-            studentRole = new Role
+            // Add permissions based on role
+            if (role == "Admin")
             {
-                Id = Guid.NewGuid(),
-                Name = "Student",
-                Description = "Default role for new users"
-            };
-            await _dbContext.Roles.AddAsync(studentRole);
-            await _dbContext.SaveChangesAsync();
+                permissions.AddRange(new[] { "create", "read", "update", "delete" });
+            }
+            else if (role == "Student")
+            {
+                permissions.AddRange(new[] { "read" });
+            }
         }
-        return studentRole.Id;
+
+        return permissions.Distinct().ToList();
     }
 }

@@ -15,16 +15,21 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
 
-    public string GenerateJwtToken(User user, IList<string> permissions)
+    public string GenerateJwtToken(ApplicationUser user, IList<string> roles, IList<string> permissions)
     {
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.Name)
+            new Claim(ClaimTypes.Name, user.Email ?? string.Empty),
         };
 
-        // Add permissions as claims
+        // Add roles
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        // Add permissions
         foreach (var permission in permissions)
         {
             claims.Add(new Claim("permission", permission));

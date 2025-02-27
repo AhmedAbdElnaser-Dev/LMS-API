@@ -27,16 +27,6 @@
   },
   {
     "ContainingType": "Al_Amal.Controllers.UsersController",
-    "Method": "GetCurrentUser",
-    "RelativePath": "api/users/me",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Al_Amal.Controllers.UsersController",
     "Method": "Register",
     "RelativePath": "api/users/register",
     "HttpMethod": "POST",
@@ -49,6 +39,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Al_Amal.Controllers.UsersController",
+    "Method": "GetCurrentUser",
+    "RelativePath": "api/users/verify",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Al-Amal")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f71a67a116d590417af07cf22980345d4a18f433")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bbfd127680dd43f68579d6af53599d2dc47d897a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Al-Amal")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Al-Amal")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
