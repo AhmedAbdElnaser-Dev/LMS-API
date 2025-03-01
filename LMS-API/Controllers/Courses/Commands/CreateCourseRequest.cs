@@ -2,13 +2,11 @@
 
 namespace LMS_API.Controllers.Courses.Commands
 {
-    public class AddCourseTranslationCommand
+    public class CreateCourseRequest
     {
         [Required]
         public Guid CategoryId { get; set; }
 
-        [Required]
-        [StringLength(255)]
-        public string DefaultLanguage { get; set; } = "en";
+        public List<string> BookIds { get; set; }
     }
 }

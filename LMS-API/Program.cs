@@ -54,6 +54,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookService>();
+builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddScoped<CourseService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // 6. Swagger configuration

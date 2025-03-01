@@ -253,6 +253,201 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CoursesController",
+    "Method": "AddCourse",
+    "RelativePath": "api/courses",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LMS_API.Controllers.Courses.Commands.CreateCourseRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CoursesController",
+    "Method": "AddCourseTranslation",
+    "RelativePath": "api/courses/{courseId}/translations",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "LMS_API.Controllers.Courses.Commands.AddTranslationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "CreateDepartment",
+    "RelativePath": "api/Departments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Departments.Commands.CreateDepartmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "GetDepartment",
+    "RelativePath": "api/Departments/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "EditDepartment",
+    "RelativePath": "api/Departments/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Departments.Commands.EditDepartmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "DeleteDepartment",
+    "RelativePath": "api/Departments/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "GetDepartments",
+    "RelativePath": "api/Departments/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "GetTranslations",
+    "RelativePath": "api/Departments/translations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "CreateTranslation",
+    "RelativePath": "api/Departments/translations",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Departments.Commands.CreateDepartmentTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "GetTranslation",
+    "RelativePath": "api/Departments/translations/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "EditTranslation",
+    "RelativePath": "api/Departments/translations/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Departments.Commands.EditDepartmentTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "DeleteTranslation",
+    "RelativePath": "api/Departments/translations/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LMS_API.Controllers.UsersController",
     "Method": "AddUser",
     "RelativePath": "api/users/add",

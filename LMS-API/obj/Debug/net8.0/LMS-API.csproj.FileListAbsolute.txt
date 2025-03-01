@@ -151,9 +151,9 @@ E:\Programming\WEB\projects\LMS-API\LMS-API\obj\Debug\net8.0\refint\LMS-API.dll
 E:\Programming\WEB\projects\LMS-API\LMS-API\obj\Debug\net8.0\LMS-API.pdb
 E:\Programming\WEB\projects\LMS-API\LMS-API\obj\Debug\net8.0\LMS-API.genruntimeconfig.cache
 E:\Programming\WEB\projects\LMS-API\LMS-API\obj\Debug\net8.0\ref\LMS-API.dll
-E:\Programming\WEB\projects\LMS-API\LMS-API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 E:\Programming\WEB\projects\LMS-API\LMS-API\bin\Debug\net8.0\AutoMapper.dll
 E:\Programming\WEB\projects\LMS-API\LMS-API\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 E:\Programming\WEB\projects\LMS-API\LMS-API\bin\Debug\net8.0\Newtonsoft.Json.dll
 E:\Programming\WEB\projects\LMS-API\LMS-API\bin\Debug\net8.0\SendGrid.dll
 E:\Programming\WEB\projects\LMS-API\LMS-API\bin\Debug\net8.0\StarkbankEcdsa.dll
+E:\Programming\WEB\projects\LMS-API\LMS-API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
