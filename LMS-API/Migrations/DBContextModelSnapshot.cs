@@ -128,9 +128,6 @@ namespace LMS_API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -155,9 +152,7 @@ namespace LMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.BookTranslation", b =>
@@ -191,7 +186,7 @@ namespace LMS_API.Migrations
                     b.HasIndex("Name", "Language", "BookId")
                         .IsUnique();
 
-                    b.ToTable("BookTranslations");
+                    b.ToTable("BookTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Category", b =>
@@ -206,7 +201,7 @@ namespace LMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Course", b =>
@@ -230,7 +225,22 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
+                });
+
+            modelBuilder.Entity("LMS_API.Models.CourseBook", b =>
+                {
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CourseId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("CoursesBooks", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.CourseTranslation", b =>
@@ -295,7 +305,7 @@ namespace LMS_API.Migrations
                     b.HasIndex("Name", "Language", "CourseId")
                         .IsUnique();
 
-                    b.ToTable("CoursesTranslations");
+                    b.ToTable("CoursesTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Department", b =>
@@ -321,7 +331,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("SupervisorId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.DepartmentTranslation", b =>
@@ -349,7 +359,7 @@ namespace LMS_API.Migrations
                     b.HasIndex("Name", "Language", "DepartmentId")
                         .IsUnique();
 
-                    b.ToTable("DepartmentTranslations");
+                    b.ToTable("DepartmentTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Group", b =>
@@ -374,7 +384,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.GroupStudent", b =>
@@ -396,7 +406,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("GroupsStudents");
+                    b.ToTable("GroupsStudents", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.GroupTranslation", b =>
@@ -420,7 +430,7 @@ namespace LMS_API.Migrations
 
                     b.HasKey("GroupId", "Language");
 
-                    b.ToTable("GroupsTranslations");
+                    b.ToTable("GroupsTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Lesson", b =>
@@ -441,7 +451,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.LessonTranslation", b =>
@@ -465,7 +475,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("LessonTranslations");
+                    b.ToTable("LessonTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Level", b =>
@@ -493,7 +503,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Levels");
+                    b.ToTable("Levels", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Unit", b =>
@@ -509,7 +519,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.UnitTranslation", b =>
@@ -534,7 +544,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("UnitTranslations");
+                    b.ToTable("UnitTranslations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -670,13 +680,6 @@ namespace LMS_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LMS_API.Models.Book", b =>
-                {
-                    b.HasOne("LMS_API.Models.Course", null)
-                        .WithMany("Books")
-                        .HasForeignKey("CourseId");
-                });
-
             modelBuilder.Entity("LMS_API.Models.BookTranslation", b =>
                 {
                     b.HasOne("LMS_API.Models.Book", "Book")
@@ -701,6 +704,25 @@ namespace LMS_API.Migrations
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("LMS_API.Models.CourseBook", b =>
+                {
+                    b.HasOne("LMS_API.Models.Book", "Book")
+                        .WithMany("CourseBooks")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LMS_API.Models.Course", "Course")
+                        .WithMany("CourseBooks")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("LMS_API.Models.CourseTranslation", b =>
@@ -908,12 +930,14 @@ namespace LMS_API.Migrations
 
             modelBuilder.Entity("LMS_API.Models.Book", b =>
                 {
+                    b.Navigation("CourseBooks");
+
                     b.Navigation("Translations");
                 });
 
             modelBuilder.Entity("LMS_API.Models.Course", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("CourseBooks");
 
                     b.Navigation("Groups");
 

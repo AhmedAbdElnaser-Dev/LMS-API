@@ -24,5 +24,7 @@ namespace LMS_API.Models
 
         [Required]
         public int MaxStudents { get; set; }
+
+        public List<GroupTranslation> Translations { get; set; } = new();
     }
 }

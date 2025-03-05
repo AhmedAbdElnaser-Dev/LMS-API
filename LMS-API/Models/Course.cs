@@ -16,7 +16,7 @@ namespace LMS_API.Models
         public Category Category { get; set; }
 
         public List<Level> Levels { get; set; } = new();
-        public List<Book> Books { get; set; } = new();
+        public List<CourseBook> CourseBooks { get; set; } = new List<CourseBook>();
         public List<Unit> Units { get; set; } = new();
         public List<Group> Groups { get; set; } = new();
         public List<CourseTranslation> Translations { get; set; } = new();

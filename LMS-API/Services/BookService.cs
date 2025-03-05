@@ -2,6 +2,7 @@
 using AutoMapper;
 using LMS_API.Controllers.Books.Commands;
 using LMS_API.Controllers.Books.ViewModels;
+using LMS_API.Controllers.Departments.Commands;
 using LMS_API.Data;
 using LMS_API.Migrations;
 using LMS_API.Models;
@@ -115,7 +116,6 @@ public class BookService
         }
     }
 
-
     public async Task<(bool Success, string? Error)> AddBookTranslation(AddBookTranslationCommand command)
     {
         try
@@ -181,7 +181,6 @@ public class BookService
             return (false, "An error occurred while deleting the book");
         }
     }
-
 
     public async Task<(bool Success, string? Error)> DeleteBookTranslation(Guid bookTranslationId)
     {
@@ -283,6 +282,5 @@ public class BookService
             return (false, ex.Message);
         }
     }
-
 
 }

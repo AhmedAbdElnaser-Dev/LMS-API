@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\Courses\Commands\AddGroupRequest.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.13" />
@@ -25,12 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Courses\ViewModels\" />
     <Folder Include="uploads\books\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Controllers\Courses\Commands\AddGroupRequest.cs" />
   </ItemGroup>
 
 </Project>

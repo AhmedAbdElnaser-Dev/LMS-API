@@ -21,12 +21,10 @@ namespace LMS_API.Data
         public DbSet<LessonTranslation> LessonTranslations { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepartmentTranslation> DepartmentTranslations { get; set; }
-
         public DbSet<Group> Groups { get; set; }
-
         public DbSet<GroupTranslation> GroupsTranslations { get; set; }
-
         public DbSet<GroupStudent> GroupsStudents { get; set; }
+        public DbSet<CourseBook> CoursesBooks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -210,6 +208,25 @@ namespace LMS_API.Data
                 .HasOne(g => g.Course)
                 .WithMany(c => c.Groups)
                 .HasForeignKey(g => g.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CourseBook>()
+                .HasKey(cb => new { cb.CourseId, cb.BookId });
+
+            builder.Entity<CourseBook>()
+                .HasOne(cb => cb.Course)
+                .WithMany(c => c.CourseBooks)
+                .HasForeignKey(cb => cb.CourseId);
+
+            builder.Entity<CourseBook>()
+                .HasOne(cb => cb.Book)
+                .WithMany(b => b.CourseBooks)
+                .HasForeignKey(cb => cb.BookId);
+
+            builder.Entity<GroupTranslation>()
+                .HasOne(gt => gt.Group)
+                .WithMany()
+                .HasForeignKey(gt => gt.GroupId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

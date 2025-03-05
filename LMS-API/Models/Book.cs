@@ -16,6 +16,8 @@ namespace LMS_API.Models
         [Required]
         public string UrlPic { get; set; }
 
+        public List<CourseBook> CourseBooks { get; set; } = new List<CourseBook>();
+
         [Required]
         public string CreatedBy { get; set; }
 
