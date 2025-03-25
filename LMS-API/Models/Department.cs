@@ -7,10 +7,10 @@ namespace LMS_API.Models
     {
         Male,
         Female,
-        Other
+        Kids
     }
 
-    public class Department
+    public class Department: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

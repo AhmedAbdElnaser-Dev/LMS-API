@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using LMS_API.Controllers.Departments.Commands;
 
 namespace LMS_API.Controllers.Departments
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DepartmentsController : ControllerBase
     {
         private readonly DepartmentService _departmentService;
@@ -16,16 +17,16 @@ namespace LMS_API.Controllers.Departments
             _departmentService = departmentService;
         }
 
-        // Get all Departments
         [HttpGet("all")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
         public async Task<IActionResult> GetDepartments()
         {
             var result = await _departmentService.GetAllDepartments();
             return Ok(result);
         }
 
-        // Get Department by ID
         [HttpGet("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
         public async Task<IActionResult> GetDepartment(int id)
         {
             var result = await _departmentService.GetDepartmentById(id);
@@ -33,16 +34,16 @@ namespace LMS_API.Controllers.Departments
             return Ok(result);
         }
 
-        // Create Department
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager")]
         public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentCommand command)
         {
             var result = await _departmentService.CreateDepartment(command);
             return CreatedAtAction(nameof(GetDepartment), new { id = result.Id }, result);
         }
 
-        // Edit Department
         [HttpPut("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager")]
         public async Task<IActionResult> EditDepartment(int id, [FromBody] EditDepartmentCommand command)
         {
             var success = await _departmentService.EditDepartment(id, command);
@@ -50,8 +51,8 @@ namespace LMS_API.Controllers.Departments
             return NoContent();
         }
 
-        // Delete Department
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteDepartment(int id)
         {
             var success = await _departmentService.DeleteDepartment(id);
@@ -59,16 +60,16 @@ namespace LMS_API.Controllers.Departments
             return NoContent();
         }
 
-        // Get All Translations
         [HttpGet("translations")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
         public async Task<IActionResult> GetTranslations()
         {
             var result = await _departmentService.GetAllTranslations();
             return Ok(result);
         }
 
-        // Get Translation by ID
         [HttpGet("translations/{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
         public async Task<IActionResult> GetTranslation(int id)
         {
             var result = await _departmentService.GetTranslationById(id);
@@ -76,27 +77,43 @@ namespace LMS_API.Controllers.Departments
             return Ok(result);
         }
 
-        // Create Translation
         [HttpPost("translations")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
         public async Task<IActionResult> CreateTranslation([FromBody] CreateDepartmentTranslationCommand command)
         {
+            var requiredPermission = $"Translate_{command.Language}";
+            if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
+                return Forbid();
+
             var result = await _departmentService.CreateTranslation(command);
             return CreatedAtAction(nameof(GetTranslation), new { id = result.Id }, result);
         }
 
-        // Edit Translation
         [HttpPut("translations/{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
         public async Task<IActionResult> EditTranslation(int id, [FromBody] EditDepartmentTranslationCommand command)
         {
+            var requiredPermission = $"Translate_{command.Language}";
+            if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
+                return Forbid();
+
             var success = await _departmentService.EditTranslation(id, command);
             if (!success) return NotFound();
             return NoContent();
         }
 
-        // Delete Translation
         [HttpDelete("translations/{id}")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager")]
         public async Task<IActionResult> DeleteTranslation(int id)
         {
+            var translation = await _departmentService.GetTranslationById(id);
+            if (translation == null)
+                return NotFound();
+
+            var requiredPermission = $"Translate_{translation.Language}";
+            if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
+                return Forbid();
+
             var success = await _departmentService.DeleteTranslation(id);
             if (!success) return NotFound();
             return NoContent();

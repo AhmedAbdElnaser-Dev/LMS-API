@@ -4,7 +4,6 @@ using LMS_API.Controllers.Books.Commands;
 using LMS_API.Controllers.Books.ViewModels;
 using LMS_API.Controllers.Departments.Commands;
 using LMS_API.Data;
-using LMS_API.Migrations;
 using LMS_API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +14,7 @@ public class BookService
     private readonly DBContext _context;
     private readonly ILogger<BookService> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IHttpContextAccessor _httpContextAccessor; 
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public BookService(
         IMapper mapper,
@@ -47,16 +46,47 @@ public class BookService
         return (true, bookVM, null);
     }
 
-    public async Task<(bool Success, List<BookTranslationVM>? Translations, string? Error)> GetBookTranslations(Guid bookId)
+    public async Task<(bool Success, Dictionary<string, BookTranslationVM> Translations, string? Error)> GetBookTranslations(Guid bookId)
     {
-        var translations = await _context.BookTranslations
-            .Where(bt => bt.BookId == bookId)
-            .ToListAsync();
+        try
+        {
+            if (!await _context.Books.AnyAsync(b => b.Id == bookId))
+                return (false, null, "Book not found");
 
-        if (!translations.Any())
-            return (false, null, "No translations found for this book");
+            var translations = await _context.BookTranslations
+                .Where(bt => bt.BookId == bookId)
+                .ToListAsync();
 
-        return (true, _mapper.Map<List<BookTranslationVM>>(translations), null);
+            var validLanguages = new[] { "en", "ar", "ru" };
+            var translationDict = new Dictionary<string, BookTranslationVM>();
+
+            foreach (var lang in validLanguages)
+            {
+                translationDict[lang] = new BookTranslationVM
+                {
+                    Id = Guid.Empty,
+                    Language = lang,
+                    Name = string.Empty,
+                    Description = string.Empty
+                };
+            }
+
+            foreach (var translation in translations)
+            {
+                if (validLanguages.Contains(translation.Language))
+                {
+                    translationDict[translation.Language] = _mapper.Map<BookTranslationVM>(translation);
+                }
+            }
+
+            _logger.LogInformation("Retrieved translations for Book {BookId}", bookId);
+            return (true, translationDict, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving translations for BookId {BookId}", bookId);
+            return (false, null, $"An error occurred: {ex.Message}");
+        }
     }
 
     public async Task<(bool Success, BookVM? Book, string? Error)> CreateBook(CreateBookCommand command)
@@ -116,18 +146,18 @@ public class BookService
         }
     }
 
-    public async Task<(bool Success, string? Error)> AddBookTranslation(AddBookTranslationCommand command)
+    public async Task<(bool Success, BookTranslation? Translation, string? Error)> AddBookTranslation(AddBookTranslationCommand command)
     {
         try
         {
             var book = await _context.Books.FindAsync(command.BookId);
             if (book == null)
-                return (false, "Book not found");
+                return (false, null, "Book not found");
 
             var existingTranslation = await _context.BookTranslations
                 .FirstOrDefaultAsync(bt => bt.BookId == command.BookId && bt.Language == command.Language);
             if (existingTranslation != null)
-                return (false, "Translation for this language already exists");
+                return (false, null, "Translation for this language already exists");
 
             var bookTranslation = new BookTranslation
             {
@@ -141,12 +171,15 @@ public class BookService
             _context.BookTranslations.Add(bookTranslation);
             await _context.SaveChangesAsync();
 
-            return (true, null);
+            _logger.LogInformation("Book translation {TranslationId} added for Book {BookId} in {Language}",
+                bookTranslation.Id, command.BookId, command.Language);
+            return (true, bookTranslation, null);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding book translation");
-            return (false, "An error occurred while adding translation");
+            _logger.LogError(ex, "Error adding book translation for BookId {BookId} in {Language}",
+                command.BookId, command.Language);
+            return (false, null, "An error occurred while adding translation");
         }
     }
 
@@ -235,7 +268,6 @@ public class BookService
     {
         try
         {
-            // Validate file type (only PDFs allowed)
             var allowedExtensions = new[] { ".pdf" };
             var extension = Path.GetExtension(pdf.FileName).ToLowerInvariant();
             var contentType = pdf.ContentType.ToLower();
@@ -283,4 +315,26 @@ public class BookService
         }
     }
 
+    public async Task<BookTranslation?> GetTranslationById(Guid bookTranslationId)
+    {
+        try
+        {
+            var translation = await _context.BookTranslations
+                .FirstOrDefaultAsync(bt => bt.Id == bookTranslationId);
+
+            if (translation == null)
+            {
+                _logger.LogWarning("Book translation with ID {BookTranslationId} not found", bookTranslationId);
+                return null;
+            }
+
+            _logger.LogInformation("Retrieved book translation with ID {BookTranslationId}", bookTranslationId);
+            return translation;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving book translation with ID {BookTranslationId}", bookTranslationId);
+            throw;
+        }
+    }
 }

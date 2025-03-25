@@ -11,5 +11,6 @@
         public string Timezone { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
         public string TelegramNumber { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
     }
 }

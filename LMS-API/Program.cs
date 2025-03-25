@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+    {
+        sqlOptions.CommandTimeout(120); 
+    });
 });
 
 // 1. Configure Authentication first
@@ -57,6 +60,7 @@ builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<PermissionsSeeder>(); 
 
 // 6. Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
@@ -135,6 +139,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await RoleSeeder.SeedRoles(services);
     await CategorySeeder.SeedCategories(services);
+
+    var seeder = scope.ServiceProvider.GetRequiredService<PermissionsSeeder>(); 
+    await seeder.SeedAsync();
 }
 
 // 15. Other Middleware

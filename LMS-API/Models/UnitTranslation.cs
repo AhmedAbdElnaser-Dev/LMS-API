@@ -2,7 +2,7 @@
 
 namespace LMS_API.Models
 {
-    public class UnitTranslation
+    public class UnitTranslation:  BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

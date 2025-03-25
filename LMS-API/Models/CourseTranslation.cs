@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace LMS_API.Models
 {
-    public class CourseTranslation
+    public class CourseTranslation: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

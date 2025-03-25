@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS_API.Models
 {
-    public class BookTranslation
+    public class BookTranslation: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

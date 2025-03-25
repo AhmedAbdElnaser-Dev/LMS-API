@@ -1,6 +1,6 @@
 ﻿namespace LMS_API.Models
 {
-    public class CourseBook
+    public class CourseBook: BaseEntity
     {
         public Guid CourseId { get; set; }
         public Course Course { get; set; }

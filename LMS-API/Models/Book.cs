@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS_API.Models
 {
-    public class Book
+    public class Book: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -17,14 +17,5 @@ namespace LMS_API.Models
         public string UrlPic { get; set; }
 
         public List<CourseBook> CourseBooks { get; set; } = new List<CourseBook>();
-
-        [Required]
-        public string CreatedBy { get; set; }
-
-        public string UpdatedBy { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

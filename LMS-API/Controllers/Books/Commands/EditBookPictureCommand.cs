@@ -2,6 +2,6 @@
 {
     public class EditBookPictureCommand
     {
-        public IFormFile Picture { get; set; }
+        public IFormFile Picture { get; set; }  
     }
 }

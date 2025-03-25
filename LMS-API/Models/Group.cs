@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS_API.Models
 {
-    public class Group
+    public class Group: BaseEntity
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();

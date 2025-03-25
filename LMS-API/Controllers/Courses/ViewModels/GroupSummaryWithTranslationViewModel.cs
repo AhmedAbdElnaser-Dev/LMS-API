@@ -1,4 +1,4 @@
-﻿namespace LMS_API.Controllers.Courses.ViewModels
+namespace LMS_API.Controllers.Courses.ViewModels
 {
     public class GroupSummaryWithTranslationViewModel
     {

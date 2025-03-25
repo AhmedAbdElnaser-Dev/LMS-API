@@ -4,6 +4,7 @@ namespace LMS_API.Controllers.Books.ViewModels
 {
     public class BookVM
     {
+        public Guid Id { get; set; }
         [Url]
         public string UrlPdf { get; set; }
 

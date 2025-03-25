@@ -1,127 +1,152 @@
-﻿using LMS_API.Controllers.Books.Commands;
-using LMS_API.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿    using LMS_API.Controllers.Books.Commands;
+    using LMS_API.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
-namespace LMS_API.Controllers.Books
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BooksController : ControllerBase
+    namespace LMS_API.Controllers.Books
     {
-        private readonly BookService _bookService;
-
-        public BooksController(BookService bookService)
+        [Route("api/[controller]")]
+        [ApiController]
+        [Authorize]
+        public class BooksController : ControllerBase
         {
-            _bookService = bookService;
-        }
+            private readonly BookService _bookService;
 
+            public BooksController(BookService bookService)
+            {
+                _bookService = bookService;
+            }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllBooks()
-        {
-            var books = await _bookService.GetAllBooks();
-            return Ok(books);
-        }
+            [HttpGet]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
+            public async Task<IActionResult> GetAllBooks()
+            {
+                var books = await _bookService.GetAllBooks();
+                return Ok(books);
+            }
 
+            [HttpGet("{bookId}")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
+            public async Task<IActionResult> GetBook(Guid bookId)
+            {
+                var (success, book, error) = await _bookService.GetBookById(bookId);
+                if (!success)
+                    return NotFound(new { message = error });
 
-        [HttpGet("{bookId}")]
-        public async Task<IActionResult> GetBook(Guid bookId)
-        {
-            var (success, book, error) = await _bookService.GetBookById(bookId);
-            if (!success)
-                return NotFound(new { message = error });
+                return Ok(book);
+            }
 
-            return Ok(book);
-        }
+            [HttpGet("{bookId}/translations")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
+            public async Task<IActionResult> GetBookTranslations(Guid bookId)
+            {
+                var (success, translations, error) = await _bookService.GetBookTranslations(bookId);
+                if (!success)
+                    return NotFound(new { message = error });
 
+                return Ok(translations);
+            }
 
-        [HttpGet("{bookId}/translations")]
-        public async Task<IActionResult> GetBookTranslations(Guid bookId)
-        {
-            var (success, translations, error) = await _bookService.GetBookTranslations(bookId);
-            if (!success)
-                return NotFound(new { message = error });
+            [HttpPost("add")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+            public async Task<IActionResult> CreateBook([FromForm] CreateBookCommand command)
+            {
+                var (success, book, error) = await _bookService.CreateBook(command);
+                if (!success)
+                    return BadRequest(new { message = error });
 
-            return Ok(translations);
-        }
+                return Ok(book);
+            }
 
+            [HttpPost("add-translation")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
+            public async Task<IActionResult> AddTranslation([FromBody] AddBookTranslationCommand command)
+            {
+                var requiredPermission = $"Translate_{command.Language}";
+                if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
+                    return Forbid();
 
-        [HttpPost("add")]
-        public async Task<IActionResult> CreateBook([FromForm] CreateBookCommand command)
-        {
-            var (success, book, error) = await _bookService.CreateBook(command);
-            if (!success)
-                return BadRequest(new { message = error });
+                var (success, translation, error) = await _bookService.AddBookTranslation(command);
+                if (!success)
+                    return BadRequest(new { message = error });
 
-            return Ok(book);
-        }
+                return Ok(new
+                {
+                    id = translation!.Id,
+                    bookId = translation.BookId,
+                    language = translation.Language,
+                    name = translation.Name,
+                    description = translation.Description
+                });
+            }
 
+            [HttpDelete("{bookId}")]
+            [Authorize(Roles = "SuperAdmin,Admin")]
+            public async Task<IActionResult> DeleteBook(Guid bookId)
+            {
+                var (success, error) = await _bookService.DeleteBook(bookId);
+                if (!success)
+                    return BadRequest(new { message = error });
 
-        [HttpPost("add-translation")]
-        public async Task<IActionResult> AddTranslation([FromBody] AddBookTranslationCommand command)
-        {
-            var (success, error) = await _bookService.AddBookTranslation(command);
-            if (!success)
-                return BadRequest(new { message = error });
+                return Ok(new { message = "Book deleted successfully" });
+            }
 
-            return Ok(new { message = "Translation added successfully" });
-        }
+            [HttpDelete("delete-translation/{bookTranslationId}")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+            public async Task<IActionResult> DeleteBookTranslation(Guid bookTranslationId)
+            {
+                var translation = await _bookService.GetTranslationById(bookTranslationId);
+                if (translation == null)
+                    return NotFound(new { message = "Translation not found" });
 
+                var requiredPermission = $"Translate_{translation.Language}";
+                if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
+                    return Forbid();
 
-        [HttpDelete("{bookId}")]
-        public async Task<IActionResult> DeleteBook(Guid bookId)
-        {
-            var (success, error) = await _bookService.DeleteBook(bookId);
-            if (!success)
-                return BadRequest(new { message = error });
+                var (success, error) = await _bookService.DeleteBookTranslation(bookTranslationId);
+                if (!success)
+                    return BadRequest(new { message = error });
 
-            return Ok(new { message = "Book deleted successfully" });
-        }
+                return Ok(new { message = "Book translation deleted successfully" });
+            }
 
+            [HttpPut("{bookId}/picture")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
+            [Consumes("multipart/form-data")]
+            public async Task<IActionResult> EditBookPicture(Guid bookId, [FromForm] EditBookPictureCommand command)
+            {
+                var (success, error) = await _bookService.EditBookPicture(bookId, command.Picture);
+                if (!success)
+                    return BadRequest(new { message = error });
 
-        [HttpDelete("delete-translation/{bookTranslationId}")]
-        public async Task<IActionResult> DeleteBookTranslation(Guid bookTranslationId)
-        {
-            var (success, error) = await _bookService.DeleteBookTranslation(bookTranslationId);
-            if (!success)
-                return BadRequest(new { message = error });
+                return Ok(new { message = "Book picture updated successfully" });
+            }
 
-            return Ok(new { message = "Book translation deleted successfully" });
-        }
+            [HttpPut("{bookId}/pdf")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
+            [Consumes("multipart/form-data")]
+            public async Task<IActionResult> EditBookPdf(Guid bookId, [FromForm] EditBookPdfCommand command)
+            {
+                var (success, error) = await _bookService.EditBookPdf(bookId, command.Pdf);
+                if (!success)
+                    return BadRequest(new { message = error });
 
+                return Ok(new { message = "Book PDF updated successfully" });
+            }
 
-        [HttpPut("{bookId}/picture")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> EditBookPicture(Guid bookId, [FromForm] EditBookPictureCommand command)
-        {
-            var (success, error) = await _bookService.EditBookPicture(bookId, command.Picture);
-            if (!success)
-                return BadRequest(new { message = error });
+            [HttpPut("update-translation/{bookTranslationId}")]
+            [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
+            public async Task<IActionResult> EditBookTranslation(Guid bookTranslationId, [FromBody] EditBookTranslationCommand model)
+            {
+                var requiredPermission = $"Translate_{model.Language}";
+                if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
+                    return Forbid();
 
-            return Ok(new { message = "Book picture updated successfully" });
-        }
+                var (success, error) = await _bookService.EditBookTranslation(bookTranslationId, model);
+                if (!success)
+                    return BadRequest(new { message = error });
 
-
-        [HttpPut("{bookId}/pdf")]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> EditBookPdf(Guid bookId, [FromForm] EditBookPdfCommand command)
-        {
-            var (success, error) = await _bookService.EditBookPdf(bookId, command.Pdf);
-            if (!success)
-                return BadRequest(new { message = error });
-
-            return Ok(new { message = "Book PDF updated successfully" });
-        }
-
-
-        [HttpPut("update-translation/{bookTranslationId}")]
-        public async Task<IActionResult> EditBookTranslation(Guid bookTranslationId, [FromBody] EditBookTranslationCommand model)
-        {
-            var (success, error) = await _bookService.EditBookTranslation(bookTranslationId, model);
-            if (!success)
-                return BadRequest(new { message = error });
-
-            return Ok(new { message = "Book translation updated successfully" });
+                return Ok(new { message = "Book translation updated successfully" });
+            }
         }
     }
-}

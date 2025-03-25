@@ -5,6 +5,7 @@ using LMS_API.Data;
 using LMS_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SendGrid.Helpers.Errors.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,21 +49,19 @@ namespace LMS_API.Services
 
                 var course = new Course
                 {
-                    AddedBy = Guid.Parse(addedByUserId),
                     CategoryId = command.CategoryId
                 };
 
                 _context.Courses.Add(course);
-                await _context.SaveChangesAsync(); // Save course to generate Id
+                await _context.SaveChangesAsync();
 
-                // Add books via CourseBook
                 var CoursesBooks = books.Select(b => new CourseBook
                 {
                     CourseId = course.Id,
                     BookId = b.Id
                 }).ToList();
 
-                _context.CoursesBooks.AddRange(CoursesBooks); // Fixed typo: CoursesBooks -> CoursesBooks
+                _context.CoursesBooks.AddRange(CoursesBooks);
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Course {CourseId} added by user {UserId} with {BookCount} books", course.Id, addedByUserId, books.Count);
@@ -149,7 +148,7 @@ namespace LMS_API.Services
         {
             try
             {
-                var courseBook = await _context.CoursesBooks 
+                var courseBook = await _context.CoursesBooks
                     .FirstOrDefaultAsync(cb => cb.CourseId == command.CourseId && cb.BookId == command.BookId);
 
                 if (courseBook == null)
@@ -321,7 +320,6 @@ namespace LMS_API.Services
                     Id = course.Id,
                     CategoryId = course.CategoryId,
                     CategoryName = course.Category?.Name ?? "Unknown",
-                    AddedBy = course.AddedBy.ToString(),
                     TranslationName = translation.Name,
                     TranslationUrlPic = translation.UrlPic,
                     TranslationDescription = translation.Description,
@@ -372,7 +370,7 @@ namespace LMS_API.Services
                         Id = c.Id,
                         TranslationName = translation.Name,
                         TranslationTitle = translation.Title,
-                        CategoryName = c.Category?.Name ?? "Unknown", 
+                        CategoryName = c.Category?.Name ?? "Unknown",
                         BookTranslationNames = c.CourseBooks
                             .Select(cb => cb.Book.Translations.FirstOrDefault(bt => bt.Language == command.Language)?.Name)
                             .Where(name => name != null)
@@ -808,6 +806,27 @@ namespace LMS_API.Services
             {
                 _logger.LogError(ex, "Error deleting group {GroupId}", command.GroupId);
                 return (false, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<CourseTranslation> GetCourseTranslationById(Guid translationId)
+        {
+            try
+            {
+                var translation = await _context.CoursesTranslations
+                                    .Include(ct => ct.Course)
+                                    .FirstOrDefaultAsync(ct => ct.Id == translationId);
+                if (translation == null)
+                {
+                    _logger.LogWarning("Course translation {TranslationId} not found", translationId);
+                    throw new Exception("Course translation not found");
+                }
+                return translation;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving course translation {TranslationId}", translationId);
+                throw; 
             }
         }
     }

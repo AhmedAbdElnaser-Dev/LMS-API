@@ -2,13 +2,21 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
+using System.Security.Claims;
 
 namespace LMS_API.Data
 {
     public class DBContext : IdentityDbContext<ApplicationUser>
     {
-        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
+        public DBContext(DbContextOptions<DBContext> options, IHttpContextAccessor httpContextAccessor)
+            : base(options)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public DBContext(DbContextOptions<DBContext> options) : base(options) { }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTranslation> CoursesTranslations { get; set; }
         public DbSet<Book> Books { get; set; }
@@ -25,6 +33,8 @@ namespace LMS_API.Data
         public DbSet<GroupTranslation> GroupsTranslations { get; set; }
         public DbSet<GroupStudent> GroupsStudents { get; set; }
         public DbSet<CourseBook> CoursesBooks { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -228,6 +238,83 @@ namespace LMS_API.Data
                 .WithMany()
                 .HasForeignKey(gt => gt.GroupId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Permission configuration
+            builder.Entity<Permission>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Name).IsRequired().HasMaxLength(100);
+            });
+
+            // RolePermission configuration
+            builder.Entity<RolePermission>(entity =>
+            {
+                entity.HasKey(rp => rp.Id);
+                entity.HasOne(rp => rp.Role)
+                      .WithMany()
+                      .HasForeignKey(rp => rp.RoleId)
+                      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(rp => rp.Permission)
+                      .WithMany()
+                      .HasForeignKey(rp => rp.PermissionId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                ?? "System"; 
+
+            // Update audit fields for all tracked entities
+            var entries = ChangeTracker.Entries<BaseEntity>();
+            foreach (var entry in entries)
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = DateTime.UtcNow;
+                        entry.Entity.CreatedBy = userId;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedAt = DateTime.UtcNow;
+                        entry.Entity.UpdatedBy = userId;
+                        // Prevent overwriting CreatedAt/CreatedBy on updates
+                        entry.Property(e => e.CreatedAt).IsModified = false;
+                        entry.Property(e => e.CreatedBy).IsModified = false;
+                        break;
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override int SaveChanges()
+        {
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                            ?? "System";
+
+            var entries = ChangeTracker.Entries<BaseEntity>();
+            foreach (var entry in entries)
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = DateTime.UtcNow;
+                        entry.Entity.CreatedBy = userId;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedAt = DateTime.UtcNow;
+                        entry.Entity.UpdatedBy = userId;
+                        entry.Property(e => e.CreatedAt).IsModified = false;
+                        entry.Property(e => e.CreatedBy).IsModified = false;
+                        break;
+                }
+            }
+
+            return base.SaveChanges();
         }
     }
 }

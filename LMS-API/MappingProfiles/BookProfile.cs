@@ -20,6 +20,8 @@ namespace LMS_API.MappingProfiles
             CreateMap<Book, BookVM>();
 
             CreateMap<BookTranslation, BookTranslationVM>();
+
+
         }
     }
 }

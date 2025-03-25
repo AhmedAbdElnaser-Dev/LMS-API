@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS_API.Models
 {
-    public class Lesson
+    public class Lesson: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

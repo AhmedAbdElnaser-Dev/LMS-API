@@ -5,11 +5,9 @@ using System.Text.Json;
 
 namespace LMS_API.Models
 {
-    public class Course
+    public class Course: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-
-        public Guid AddedBy { get; set; }
 
         public Guid CategoryId { get; set; }
 

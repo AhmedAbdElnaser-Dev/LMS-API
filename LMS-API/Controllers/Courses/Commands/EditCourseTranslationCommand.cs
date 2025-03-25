@@ -9,6 +9,7 @@
         public string About { get; set; }
         public string DemoUrl { get; set; }
         public string Title { get; set; }
+        public string Language { get; set; }
         public List<string> Prerequisites { get; set; } = new();
         public List<string> LearningOutcomes { get; set; } = new();
     }
