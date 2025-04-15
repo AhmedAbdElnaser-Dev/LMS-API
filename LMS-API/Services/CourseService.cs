@@ -1,4 +1,4 @@
-﻿using LMS_API.Controllers.Courses.Commands;
+using LMS_API.Controllers.Courses.Commands;
 using LMS_API.Controllers.Courses.Queries;
 using LMS_API.Controllers.Courses.ViewModels;
 using LMS_API.Data;
@@ -24,6 +24,153 @@ namespace LMS_API.Services
             _logger = logger;
         }
 
+        public async Task<(bool Success, List<CourseDetailsViewModel> Courses, string? ErrorMessage)> GetAllCoursesDetailedAsync()
+        {
+            try
+            {
+                var courses = await _context.Courses
+                    .Include(c => c.Category)
+                    .Include(c => c.Department)
+                    .Include(c => c.Units)
+                        .ThenInclude(u => u.Lessons)
+                    .Include(c => c.Groups)
+                        .ThenInclude(g => g.Instructor)
+                    .ToListAsync();
+
+                var viewModels = courses.Select(c =>
+                {
+                    var instructors = c.Groups
+                        .Select(g => new UserViewModel
+                        {
+                            Id = g.InstructorId,
+                            FullName = g.Instructor != null ? $"{g.Instructor.FirstName} {g.Instructor.LastName}" : "Unknown Instructor"
+                        })
+                        .DistinctBy(i => i.Id) 
+                        .ToList();
+
+                    return new CourseDetailsViewModel
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        CategoryId = c.CategoryId,
+                        CategoryName = c.Category?.Name ?? "Unknown",
+                        DepartmentId = c.DepartmentId,
+                        DepartmentName = c.Department?.Name ?? "Unknown", 
+                        GroupCount = c.Groups.Count,
+                        UnitCount = c.Units.Count,
+                        LessonCount = c.Units.Sum(u => u.Lessons.Count),
+                        InstructorCount = instructors.Count, 
+                        Instructors = instructors 
+                    };
+                }).ToList();
+
+                _logger.LogInformation("Retrieved {CourseCount} courses with detailed info", viewModels.Count);
+                return (true, viewModels, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving detailed courses");
+                return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, CourseFullDetailsViewModel? Course, string? ErrorMessage)> GetCourseFullDetailsAsync(Guid courseId)
+        {
+            try
+            {
+                var course = await _context.Courses
+                    .Include(c => c.Category)
+                    .Include(c => c.Department)
+                    .Include(c => c.Groups)
+                        .ThenInclude(g => g.Instructor)
+                    .Include(c => c.CourseBooks)
+                        .ThenInclude(cb => cb.Book)
+                    .Include(c => c.Units)
+                        .ThenInclude(u => u.Lessons)
+                    .Include(c => c.Translations)
+                    .FirstOrDefaultAsync(c => c.Id == courseId);
+
+                if (course == null)
+                    return (false, null, "Course not found.");
+
+                var viewModel = new CourseFullDetailsViewModel
+                {
+                    Id = course.Id,
+                    Name = course.Name,
+                    CategoryId = course.CategoryId,
+                    CategoryName = course.Category?.Name ?? "Unknown",
+                    DepartmentId = course.DepartmentId,
+                    DepartmentName = course.Department?.Name ?? "Unknown",
+                    Groups = course.Groups.Select(g => new GroupInfo
+                    {
+                        Id = g.Id,
+                        Instructor = new UserViewModel
+                        {
+                            Id = g.InstructorId,
+                            FullName = g.Instructor != null ? $"{g.Instructor.FirstName} {g.Instructor.LastName}" : "Unknown Instructor"
+                        }
+                    }).ToList(),
+                    Books = course.CourseBooks.Select(cb => new BookInfo
+                    {
+                        Id = cb.Book.Id,
+                        Name = cb.Book.Name,
+                        urlPdf = cb.Book.UrlPdf,
+                        urlPic = cb.Book.UrlPic
+                    }).ToList(),
+                    Units = course.Units.Select(u => new UnitInfo
+                    {
+                        Id = u.Id,
+                        Name = u.Translations.FirstOrDefault()?.Name ?? "Unnamed Unit",
+                        LessonCount = u.Lessons.Count
+                    }).ToList(),
+                    Translations = new Dictionary<string, CourseTranslationInfo>
+                        {
+                            { "en", GetTranslationOrEmpty(course.Translations, "en") },
+                            { "ar", GetTranslationOrEmpty(course.Translations, "ar") },
+                            { "ru", GetTranslationOrEmpty(course.Translations, "ru") }
+                        }
+                };
+
+                _logger.LogInformation("Retrieved full details for course {CourseId}", courseId);
+                return (true, viewModel, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving full details for course {CourseId}", courseId);
+                return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        private CourseTranslationInfo GetTranslationOrEmpty(List<CourseTranslation> translations, string language)
+        {
+            var translation = translations.FirstOrDefault(t => t.Language == language);
+            return translation != null
+                ? new CourseTranslationInfo
+                {
+                    Id = translation.Id,
+                    Name = translation.Name,
+                    UrlPic = translation.UrlPic,
+                    Description = translation.Description,
+                    About = translation.About,
+                    DemoUrl = translation.DemoUrl,
+                    Title = translation.Title,
+                    Prerequisites = translation.Prerequisites,
+                    LearningOutcomes = translation.LearningOutcomes // Use deserialized List<string>
+                }
+                : new CourseTranslationInfo
+                {
+                    Id = Guid.Empty,
+                    Name = null,
+                    UrlPic = null,
+                    Description = null,
+                    About = null,
+                    DemoUrl = null,
+                    Title = null,
+                    Prerequisites = new List<string>(), // Empty list for missing translation
+                    LearningOutcomes = new List<string>() // Empty list for missing translation
+                };
+        }
+        
         public async Task<(bool Success, Course? Course, string? ErrorMessage)> AddCourseAsync(string addedByUserId, AddCourseCommand command)
         {
             try
@@ -31,8 +178,17 @@ namespace LMS_API.Services
                 if (string.IsNullOrEmpty(addedByUserId))
                     return (false, null, "User ID is required.");
 
+                if (string.IsNullOrWhiteSpace(command.Name))
+                    return (false, null, "Course name is required.");
+
+                if (await _context.Courses.AnyAsync(c => c.Name == command.Name))
+                    return (false, null, $"A course with the name '{command.Name}' already exists.");
+
                 if (!await _context.Categories.AnyAsync(c => c.Id == command.CategoryId))
                     return (false, null, "Invalid Category ID.");
+
+                if (!await _context.Departments.AnyAsync(d => d.Id == command.DepartmentId))
+                    return (false, null, "Invalid Department ID.");
 
                 if (command.BookIds == null || !command.BookIds.Any())
                     return (false, null, "At least one Book ID is required.");
@@ -49,19 +205,21 @@ namespace LMS_API.Services
 
                 var course = new Course
                 {
-                    CategoryId = command.CategoryId
+                    Name = command.Name,          
+                    CategoryId = command.CategoryId, 
+                    DepartmentId = command.DepartmentId 
                 };
 
                 _context.Courses.Add(course);
                 await _context.SaveChangesAsync();
 
-                var CoursesBooks = books.Select(b => new CourseBook
+                var coursesBooks = books.Select(b => new CourseBook
                 {
                     CourseId = course.Id,
                     BookId = b.Id
                 }).ToList();
 
-                _context.CoursesBooks.AddRange(CoursesBooks);
+                _context.CoursesBooks.AddRange(coursesBooks);
                 await _context.SaveChangesAsync();
 
                 _logger.LogInformation("Course {CourseId} added by user {UserId} with {BookCount} books", course.Id, addedByUserId, books.Count);
@@ -71,6 +229,111 @@ namespace LMS_API.Services
             {
                 _logger.LogError(ex, "Error adding course by user {UserId}", addedByUserId);
                 return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+        
+        public async Task<(bool Success, Course? Course, string? ErrorMessage)> EditCourseAsync(string editedByUserId, Guid courseId, EditCourseCommand command)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(editedByUserId))
+                    return (false, null, "User ID is required.");
+
+                var course = await _context.Courses
+                    .Include(c => c.CourseBooks)
+                    .FirstOrDefaultAsync(c => c.Id == courseId);
+
+                if (course == null)
+                    return (false, null, "Course not found.");
+
+                if (string.IsNullOrWhiteSpace(command.Name))
+                    return (false, null, "Course name is required.");
+
+                if (await _context.Courses.AnyAsync(c => c.Name == command.Name && c.Id != courseId))
+                    return (false, null, $"A course with the name '{command.Name}' already exists.");
+
+                if (!await _context.Categories.AnyAsync(c => c.Id == command.CategoryId))
+                    return (false, null, "Invalid Category ID.");
+
+                if (!await _context.Departments.AnyAsync(d => d.Id == command.DepartmentId))
+                    return (false, null, "Invalid Department ID.");
+
+                if (command.BookIds == null || !command.BookIds.Any())
+                    return (false, null, "At least one Book ID is required.");
+
+                var books = await _context.Books
+                    .Where(b => command.BookIds.Contains(b.Id))
+                    .ToListAsync();
+
+                if (books.Count != command.BookIds.Count)
+                {
+                    var missingIds = command.BookIds.Except(books.Select(b => b.Id)).ToList();
+                    return (false, null, $"The following Book IDs do not exist: {string.Join(", ", missingIds)}");
+                }
+
+                // Update course properties
+                course.Name = command.Name;
+                course.CategoryId = command.CategoryId;
+                course.DepartmentId = command.DepartmentId;
+
+                // Remove existing CourseBooks
+                _context.CoursesBooks.RemoveRange(course.CourseBooks);
+                await _context.SaveChangesAsync();
+
+                // Add new CourseBooks
+                var newCourseBooks = books.Select(b => new CourseBook
+                {
+                    CourseId = course.Id,
+                    BookId = b.Id
+                }).ToList();
+
+                _context.CoursesBooks.AddRange(newCourseBooks);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Course {CourseId} edited by user {UserId} with {BookCount} books", course.Id, editedByUserId, books.Count);
+                return (true, course, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error editing course {CourseId} by user {UserId}", courseId, editedByUserId);
+                return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> DeleteCourseAsync(string deletedByUserId, Guid courseId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(deletedByUserId))
+                    return (false, "User ID is required.");
+
+                var course = await _context.Courses
+                    .Include(c => c.CourseBooks) 
+                    .Include(c => c.Groups)
+                    .Include(c => c.Units)
+                        .ThenInclude(u => u.Lessons) 
+                    .Include(c => c.Translations)
+                    .FirstOrDefaultAsync(c => c.Id == courseId);
+
+                if (course == null)
+                    return (false, "Course not found.");
+
+                //_context.CoursesBooks.RemoveRange(course.CourseBooks);
+                //_context.Groups.RemoveRange(course.Groups);
+                //_context.Units.RemoveRange(course.Units);
+                //_context.CoursesTranslations.RemoveRange(course.Translations);
+
+                _context.Courses.Remove(course);
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Course {CourseId} deleted by user {UserId}", courseId, deletedByUserId);
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting course {CourseId} by user {UserId}", courseId, deletedByUserId);
+                return (false, $"An error occurred: {ex.Message}");
             }
         }
 
@@ -592,44 +855,12 @@ namespace LMS_API.Services
                 if (command.MaxStudents <= 0)
                     return (false, null, "MaxStudents must be greater than zero.");
 
-                if (command.Translations == null || !command.Translations.Any())
-                    return (false, null, "At least one translation is required.");
-
-                var validLanguages = new[] { "ar", "en", "ru" };
-                foreach (var t in command.Translations)
-                {
-                    if (!validLanguages.Contains(t.Language))
-                        return (false, null, $"Invalid language: {t.Language}. Must be 'ar', 'en', or 'ru'.");
-                    if (string.IsNullOrWhiteSpace(t.Name))
-                        return (false, null, "Name is required for each translation.");
-                }
-
-                var students = await _context.Users
-                    .Where(u => command.StudentIds.Contains(u.Id))
-                    .ToListAsync();
-                if (students.Count != command.StudentIds.Count)
-                {
-                    var missingIds = command.StudentIds.Except(students.Select(s => s.Id)).ToList();
-                    return (false, null, $"The following Student IDs do not exist: {string.Join(", ", missingIds)}");
-                }
-                if (students.Count > command.MaxStudents)
-                    return (false, null, $"Student count ({students.Count}) exceeds MaxStudents ({command.MaxStudents}).");
-
                 var group = new Group
                 {
                     CourseId = command.CourseId,
+                    Name = command.Name,
                     InstructorId = command.InstructorId,
-                    MaxStudents = command.MaxStudents,
-                    Translations = command.Translations.Select(t => new GroupTranslation
-                    {
-                        Language = t.Language,
-                        Name = t.Name,
-                        Description = t.Description
-                    }).ToList(),
-                    GroupStudents = students.Select(s => new GroupStudent
-                    {
-                        StudentId = s.Id
-                    }).ToList()
+                    MaxStudents = command.MaxStudents
                 };
 
                 _context.Groups.Add(group);
@@ -642,6 +873,135 @@ namespace LMS_API.Services
             {
                 _logger.LogError(ex, "Error creating group for CourseId {CourseId}", command.CourseId);
                 return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, List<GroupSummaryViewModel> Groups, string? ErrorMessage)> GetCourseGroupsAsync(Guid courseId)
+        {
+            try
+            {
+                if (!await _context.Courses.AnyAsync(c => c.Id == courseId))
+                    return (false, null, "Invalid Course ID.");
+
+                var groups = await _context.Groups
+                    .Include(g => g.GroupStudents)
+                    .Where(g => g.CourseId == courseId)
+                    .ToListAsync();
+
+                var viewModels = groups.Select(g => new GroupSummaryViewModel
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    InstructorId = g.InstructorId,
+                    MaxStudents = g.MaxStudents,
+                    CurrentStudentCount = g.GroupStudents.Count
+                }).ToList();
+
+                _logger.LogInformation("Retrieved {GroupCount} groups for Course {CourseId}", viewModels.Count, courseId);
+                return (true, viewModels, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving groups for CourseId {CourseId}", courseId);
+                return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, GroupDetailsWithTranslationsViewModel? Group, string? ErrorMessage)> GetGroupDetailsWithTranslationsAsync(Guid groupId)
+        {
+            try
+            {
+                var group = await _context.Groups
+                    .Include(g => g.Translations)
+                    .Include(g => g.GroupStudents)
+                        .ThenInclude(gs => gs.Student)
+                    .Include(g => g.Instructor) 
+                    .FirstOrDefaultAsync(g => g.Id == groupId);
+
+                if (group == null)
+                    return (false, null, "Group not found.");
+
+                var viewModel = new GroupDetailsWithTranslationsViewModel
+                {
+                    Id = group.Id,
+                    Name = group.Name,
+                    CourseId = group.CourseId,
+                    MaxStudents = group.MaxStudents,
+                    CurrentStudentCount = group.GroupStudents.Count,
+                    Instructor = new UserViewModel
+                    {
+                        Id = group.Instructor.Id,
+                        FullName = group.Instructor.FirstName + group.Instructor.LastName,
+                        PhoneNumber = group.Instructor.PhoneNumber,
+                        Email = group.Instructor.Email
+                    },
+                    Students = group.GroupStudents.Select(gs => new UserViewModel
+                    {
+                        Id = gs.Student.Id,
+                        FullName = gs.Student.FirstName + gs.Student.LastName,
+                        PhoneNumber = gs.Student.TelegramNumber,
+                        Email = gs.Student.Email
+                    }).ToList(),
+                    Translations = group.Translations.Select(t => new GroupTranslationViewModel
+                    {
+                        Language = t.Language,
+                        Name = t.Name,
+                        Description = t.Description
+                    }).ToList()
+                };
+
+                _logger.LogInformation("Retrieved group {GroupId} with {TranslationCount} translations, {StudentCount} students, and instructor",
+                    groupId, viewModel.Translations.Count, viewModel.Students.Count);
+                return (true, viewModel, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving group {GroupId} details", groupId);
+                return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, Guid TranslationId, string? ErrorMessage)> AddGroupTranslationAsync(CreateGroupTranslationCommand command)
+        {
+            try
+            {
+                var group = await _context.Groups
+                    .Include(g => g.Translations)
+                    .FirstOrDefaultAsync(g => g.Id == command.GroupId);
+                if (group == null)
+                    return (false, Guid.Empty, "Group not found.");
+
+                var validLanguages = new[] { "ar", "en", "ru" };
+                if (!validLanguages.Contains(command.Language))
+                    return (false, Guid.Empty, $"Invalid language: {command.Language}. Must be 'ar', 'en', or 'ru'.");
+
+                if (group.Translations.Any(t => t.Language == command.Language))
+                    return (false, Guid.Empty, $"Translation for language '{command.Language}' already exists.");
+
+                if (string.IsNullOrWhiteSpace(command.Name))
+                    return (false, Guid.Empty, "Translation name is required.");
+
+                var translation = new GroupTranslation
+                {
+                    Id = Guid.NewGuid(), 
+                    GroupId = command.GroupId,
+                    Language = command.Language,
+                    Name = command.Name,
+                    Description = command.Description
+                };
+
+                _context.GroupsTranslations.Add(translation);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Added translation {TranslationId} for group {GroupId} in language {Language}",
+                    translation.Id, command.GroupId, command.Language);
+                return (true, translation.Id, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding translation for group {GroupId} in language {Language}",
+                    command.GroupId, command.Language);
+                return (false, Guid.Empty, $"An error occurred: {ex.Message}");
             }
         }
 
@@ -748,38 +1108,58 @@ namespace LMS_API.Services
                 if (command.MaxStudents < group.GroupStudents.Count)
                     return (false, $"MaxStudents ({command.MaxStudents}) cannot be less than current student count ({group.GroupStudents.Count}).");
 
-                if (command.Translations == null || !command.Translations.Any())
-                    return (false, "At least one translation is required.");
 
-                var validLanguages = new[] { "ar", "en", "ru" };
-                foreach (var t in command.Translations)
-                {
-                    if (!validLanguages.Contains(t.Language))
-                        return (false, $"Invalid language: {t.Language}. Must be 'ar', 'en', or 'ru'.");
-                    if (string.IsNullOrWhiteSpace(t.Name))
-                        return (false, "Name is required for each translation.");
-                }
-
+                group.Name = command.Name;
                 group.InstructorId = command.InstructorId;
                 group.MaxStudents = command.MaxStudents;
-                _context.GroupsTranslations.RemoveRange(group.Translations);
-                group.Translations.Clear();
-                group.Translations.AddRange(command.Translations.Select(t => new GroupTranslation
-                {
-                    GroupId = group.Id,
-                    Language = t.Language,
-                    Name = t.Name,
-                    Description = t.Description
-                }));
 
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Group {GroupId} updated with {TranslationCount} translations", command.GroupId, command.Translations.Count);
+                _logger.LogInformation("Group {GroupId} updated successfully", command.GroupId);
                 return (true, null);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating group {GroupId}", command.GroupId);
+                return (false, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> UpdateGroupTranslationAsync(UpdateGroupTranslationCommand command)
+        {
+            try
+            {
+                // Validate group exists
+                var group = await _context.Groups
+                    .FirstOrDefaultAsync(g => g.Id == command.GroupId);
+                if (group == null)
+                {
+                    _logger.LogWarning("Group {GroupId} not found", command.GroupId);
+                    return (false, "Group not found.");
+                }
+
+                // Validate translation exists
+                var translation = await _context.GroupsTranslations
+                    .FirstOrDefaultAsync(t => t.GroupId == command.GroupId && t.Language == command.Language);
+                if (translation == null)
+                {
+                    _logger.LogWarning("Translation for group {GroupId} and language {Language} not found", command.GroupId, command.Language);
+                    return (false, $"Translation for language '{command.Language}' not found.");
+                }
+
+                // Update translation
+                translation.Name = command.Name;
+                translation.Description = command.Description ?? translation.Description; // Preserve existing if null
+                _context.GroupsTranslations.Update(translation);
+
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Updated translation for group {GroupId} in language {Language}", command.GroupId, command.Language);
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating translation for group {GroupId} in language {Language}", command.GroupId, command.Language);
                 return (false, $"An error occurred: {ex.Message}");
             }
         }
@@ -827,6 +1207,190 @@ namespace LMS_API.Services
             {
                 _logger.LogError(ex, "Error retrieving course translation {TranslationId}", translationId);
                 throw; 
+            }
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> AddStudentToGroupAsync(AddStudentToGroupCommand command)
+        {
+            try
+            {
+                // Validate group
+                var group = await _context.Groups
+                    .Include(g => g.GroupStudents)
+                    .FirstOrDefaultAsync(g => g.Id == command.GroupId);
+                if (group == null)
+                {
+                    _logger.LogWarning("Attempted to add student to non-existent group {GroupId}", command.GroupId);
+                    return (false, "Group does not exist.");
+                }
+
+                // Validate student
+                var student = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == command.StudentId);
+                if (student == null)
+                {
+                    _logger.LogWarning("Student {StudentId} not found for group {GroupId}", command.StudentId, command.GroupId);
+                    return (false, "Student does not exist.");
+                }
+
+                //if (!await _context.UserRoles.AnyAsync(ur => ur.UserId == command.StudentId && ur.RoleId == (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Student"))?.Id))
+                //{
+                //    _logger.LogWarning("User {StudentId} is not a student for group {GroupId}", command.StudentId, command.GroupId);
+                //    return (false, "User is not registered as a student.");
+                //}
+
+                // Check duplicate
+                if (group.GroupStudents.Any(gs => gs.StudentId == command.StudentId))
+                {
+                    _logger.LogInformation("Student {StudentId} already in group {GroupId}", command.StudentId, command.GroupId);
+                    return (false, "Student is already in the group.");
+                }
+
+                // Check max students
+                if (group.GroupStudents.Count >= group.MaxStudents)
+                {
+                    _logger.LogWarning("Group {GroupId} at max capacity {MaxStudents}", command.GroupId, group.MaxStudents);
+                    return (false, $"Group has reached its maximum capacity of {group.MaxStudents} students.");
+                }
+
+                // Add student
+                var groupStudent = new GroupStudent
+                {
+                    GroupId = command.GroupId,
+                    StudentId = command.StudentId
+                };
+
+                await _context.GroupsStudents.AddAsync(groupStudent);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Successfully added student {StudentId} to group {GroupId}", command.StudentId, command.GroupId);
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add student {StudentId} to group {GroupId}", command.StudentId, command.GroupId);
+                return (false, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> RemoveStudentFromGroupAsync(RemoveStudentFromGroupCommand command)
+        {
+            try
+            {
+                // Validate group
+                var group = await _context.Groups
+                    .Include(g => g.GroupStudents)
+                    .FirstOrDefaultAsync(g => g.Id == command.GroupId);
+                if (group == null)
+                {
+                    _logger.LogWarning("Attempted to remove student from non-existent group {GroupId}", command.GroupId);
+                    return (false, "Group does not exist.");
+                }
+
+                // Validate student exists
+                var student = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Id == command.StudentId);
+                if (student == null)
+                {
+                    _logger.LogWarning("Student {StudentId} not found for group {GroupId}", command.StudentId, command.GroupId);
+                    return (false, "Student does not exist.");
+                }
+
+                // Check if student is in group
+                var groupStudent = group.GroupStudents
+                    .FirstOrDefault(gs => gs.StudentId == command.StudentId);
+                if (groupStudent == null)
+                {
+                    _logger.LogInformation("Student {StudentId} not found in group {GroupId}", command.StudentId, command.GroupId);
+                    return (false, "Student is not in the group.");
+                }
+
+                // Remove student
+                _context.GroupsStudents.Remove(groupStudent);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Successfully removed student {StudentId} from group {GroupId}", command.StudentId, command.GroupId);
+                return (true, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to remove student {StudentId} from group {GroupId}", command.StudentId, command.GroupId);
+                return (false, $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, List<TeacherViewModel> Teachers, string? ErrorMessage)> GetTeachersAsync()
+        {
+            try
+            {
+                var teacherRole = await _context.Roles
+                    .FirstOrDefaultAsync(r => r.Name == "Teacher");
+                if (teacherRole == null)
+                {
+                    _logger.LogWarning("Teacher role not found");
+                    return (false, new List<TeacherViewModel>(), "Teacher role not found.");
+                }
+
+                var teachers = await _context.Users
+                    .Join(_context.UserRoles,
+                        user => user.Id,
+                        userRole => userRole.UserId,
+                        (user, userRole) => new { User = user, UserRole = userRole })
+                    .Where(x => x.UserRole.RoleId == teacherRole.Id)
+                    .Select(x => new TeacherViewModel
+                    {
+                        Id = x.User.Id,
+                        FullName = $"{x.User.FirstName} {x.User.LastName}".Trim(),
+                        Email = x.User.Email,
+                    })
+                    .ToListAsync();
+
+                _logger.LogInformation("Retrieved {TeacherCount} teachers", teachers.Count);
+                return (true, teachers, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving teachers");
+                return (false, new List<TeacherViewModel>(), $"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, List<StudentViewModel> Students, string? ErrorMessage)> GetStudentsAsync()
+        {
+            try
+            {
+                // Find Student role
+                var studentRole = await _context.Roles
+                    .FirstOrDefaultAsync(r => r.Name == "Student");
+                if (studentRole == null)
+                {
+                    _logger.LogWarning("Student role not found");
+                    return (false, new List<StudentViewModel>(), "Student role not found.");
+                }
+
+                // Get users with Student role
+                var students = await _context.Users
+                    .Join(_context.UserRoles,
+                        user => user.Id,
+                        userRole => userRole.UserId,
+                        (user, userRole) => new { User = user, UserRole = userRole })
+                    .Where(x => x.UserRole.RoleId == studentRole.Id)
+                    .Select(x => new StudentViewModel
+                    {
+                        Id = x.User.Id,
+                        FullName = $"{x.User.FirstName} {x.User.LastName}".Trim(),
+                        Email = x.User.Email,
+                        PhoneNumber = x.User.PhoneNumber,
+                        Gender = x.User.Gender.ToString() 
+                    })
+                    .ToListAsync();
+
+                return (true, students, null);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving students");
+                return (false, new List<StudentViewModel>(), $"An error occurred: {ex.Message}");
             }
         }
     }

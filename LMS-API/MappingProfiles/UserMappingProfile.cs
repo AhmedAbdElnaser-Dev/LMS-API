@@ -2,6 +2,7 @@
 using LMS_API.Controllers.Users.Commands;
 using LMS_API.Controllers.Users.ViewModels;
 using LMS_API.Models;
+using LMS_API.Models.Enums;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace LMS_API.MappingProfiles

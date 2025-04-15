@@ -1,18 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using LMS_API.Models.Enums;
 
 namespace LMS_API.Models
 {
-    public enum Gender
-    {
-        Male,
-        Female,
-        Kids
-    }
-
+    [Index(nameof(Name), IsUnique = true)]
     public class Department: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+
+        [Required]
+        public string Name { get; set; }
 
         [Required]
         public string SupervisorId { get; set; }

@@ -38,13 +38,66 @@ public class BookService
 
     public async Task<(bool Success, BookVM? Book, string? Error)> GetBookById(Guid bookId)
     {
-        var book = await _context.Books.FindAsync(bookId);
-        if (book == null)
-            return (false, null, "Book not found");
+        try
+        {
+            var book = await _context.Books
+                .Include(b => b.Translations)
+                .FirstOrDefaultAsync(b => b.Id == bookId);
 
-        var bookVM = _mapper.Map<BookVM>(book);
-        return (true, bookVM, null);
+            if (book == null)
+                return (false, null, "Book not found");
+
+            // Manual mapping
+            var bookVM = new BookVM
+            {
+                Id = book.Id,
+                Name = book.Name,
+                UrlPdf = book.UrlPdf,
+                UrlPic = book.UrlPic,
+                CreatedBy = book.CreatedBy,
+                CreatedAt = book.CreatedAt,
+                UpdatedAt = book.UpdatedAt,
+                Translations = new Dictionary<string, BookTranslationVM>()
+            };
+
+            // Supported languages
+            var supportedLanguages = new[] { "en", "ar", "ru" };
+
+            // Initialize default translations
+            foreach (var lang in supportedLanguages)
+            {
+                bookVM.Translations[lang] = new BookTranslationVM
+                {
+                    Id = Guid.Empty,
+                    Language = lang,
+                    Name = string.Empty,
+                    Description = string.Empty
+                };
+            }
+
+            foreach (var translation in book.Translations)
+            {
+                if (supportedLanguages.Contains(translation.Language))
+                {
+                    bookVM.Translations[translation.Language] = new BookTranslationVM
+                    {
+                        Id = translation.Id,
+                        Language = translation.Language,
+                        Name = translation.Name,
+                        Description = translation.Description
+                    };
+                }
+            }
+
+            return (true, bookVM, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching book with ID {BookId}", bookId);
+            return (false, null, $"An error occurred: {ex.Message}");
+        }
     }
+
 
     public async Task<(bool Success, Dictionary<string, BookTranslationVM> Translations, string? Error)> GetBookTranslations(Guid bookId)
     {

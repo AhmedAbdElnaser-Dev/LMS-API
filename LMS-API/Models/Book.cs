@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LMS_API.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Book: BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+
+        [Required] 
+        public string Name { get; set; }
 
         public List<BookTranslation> Translations { get; set; } = new();
 

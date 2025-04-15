@@ -135,6 +135,10 @@ namespace LMS_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -151,7 +155,10 @@ namespace LMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.BookTranslation", b =>
@@ -198,7 +205,7 @@ namespace LMS_API.Migrations
                     b.HasIndex("Name", "Language", "BookId")
                         .IsUnique();
 
-                    b.ToTable("BookTranslations");
+                    b.ToTable("BookTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Category", b =>
@@ -226,7 +233,7 @@ namespace LMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Course", b =>
@@ -245,8 +252,12 @@ namespace LMS_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("DepartmentId")
+                    b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -260,7 +271,10 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Courses");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.CourseBook", b =>
@@ -288,7 +302,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("CoursesBooks");
+                    b.ToTable("CoursesBooks", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.CourseTranslation", b =>
@@ -366,7 +380,7 @@ namespace LMS_API.Migrations
                     b.HasIndex("Name", "Language", "CourseId")
                         .IsUnique();
 
-                    b.ToTable("CoursesTranslations");
+                    b.ToTable("CoursesTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Department", b =>
@@ -389,6 +403,10 @@ namespace LMS_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SupervisorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -403,9 +421,12 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("SupervisorId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.DepartmentTranslation", b =>
@@ -446,7 +467,7 @@ namespace LMS_API.Migrations
                     b.HasIndex("Name", "Language", "DepartmentId")
                         .IsUnique();
 
-                    b.ToTable("DepartmentTranslations");
+                    b.ToTable("DepartmentTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Group", b =>
@@ -472,6 +493,10 @@ namespace LMS_API.Migrations
                     b.Property<int>("MaxStudents")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -484,7 +509,10 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Groups");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.GroupStudent", b =>
@@ -506,16 +534,14 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("GroupsStudents");
+                    b.ToTable("GroupsStudents", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.GroupTranslation", b =>
                 {
-                    b.Property<Guid>("GroupId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Language")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -528,11 +554,12 @@ namespace LMS_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("GroupId1")
+                    b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -544,11 +571,12 @@ namespace LMS_API.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("GroupId", "Language");
+                    b.HasKey("Id");
 
-                    b.HasIndex("GroupId1");
+                    b.HasIndex("GroupId", "Language")
+                        .IsUnique();
 
-                    b.ToTable("GroupsTranslations");
+                    b.ToTable("GroupsTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Lesson", b =>
@@ -582,7 +610,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.LessonTranslation", b =>
@@ -619,7 +647,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("LessonTranslations");
+                    b.ToTable("LessonTranslations", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Level", b =>
@@ -660,7 +688,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Levels");
+                    b.ToTable("Levels", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Permission", b =>
@@ -676,7 +704,7 @@ namespace LMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.RolePermission", b =>
@@ -698,7 +726,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissions", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.Unit", b =>
@@ -727,7 +755,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", (string)null);
                 });
 
             modelBuilder.Entity("LMS_API.Models.UnitTranslation", b =>
@@ -765,7 +793,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("UnitTranslations");
+                    b.ToTable("UnitTranslations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -920,11 +948,15 @@ namespace LMS_API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LMS_API.Models.Department", null)
+                    b.HasOne("LMS_API.Models.Department", "Department")
                         .WithMany("Courses")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("LMS_API.Models.CourseBook", b =>
@@ -1028,14 +1060,10 @@ namespace LMS_API.Migrations
             modelBuilder.Entity("LMS_API.Models.GroupTranslation", b =>
                 {
                     b.HasOne("LMS_API.Models.Group", "Group")
-                        .WithMany()
+                        .WithMany("Translations")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("LMS_API.Models.Group", null)
-                        .WithMany("Translations")
-                        .HasForeignKey("GroupId1");
 
                     b.Navigation("Group");
                 });

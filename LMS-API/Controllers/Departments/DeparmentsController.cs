@@ -27,7 +27,7 @@ namespace LMS_API.Controllers.Departments
 
         [HttpGet("{id}")]
         [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
-        public async Task<IActionResult> GetDepartment(int id)
+        public async Task<IActionResult> GetDepartment(Guid id)
         {
             var result = await _departmentService.GetDepartmentById(id);
             if (result == null) return NotFound();
@@ -44,7 +44,7 @@ namespace LMS_API.Controllers.Departments
 
         [HttpPut("{id}")]
         [Authorize(Roles = "SuperAdmin,Admin,Manager")]
-        public async Task<IActionResult> EditDepartment(int id, [FromBody] EditDepartmentCommand command)
+        public async Task<IActionResult> EditDepartment(Guid id, [FromBody] EditDepartmentCommand command)
         {
             var success = await _departmentService.EditDepartment(id, command);
             if (!success) return NotFound();
@@ -53,7 +53,7 @@ namespace LMS_API.Controllers.Departments
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public async Task<IActionResult> DeleteDepartment(int id)
+        public async Task<IActionResult> DeleteDepartment(Guid id)
         {
             var success = await _departmentService.DeleteDepartment(id);
             if (!success) return NotFound();
@@ -70,7 +70,7 @@ namespace LMS_API.Controllers.Departments
 
         [HttpGet("translations/{id}")]
         [Authorize(Roles = "SuperAdmin,Admin,Manager,Supervisor,Teacher,Student")]
-        public async Task<IActionResult> GetTranslation(int id)
+        public async Task<IActionResult> GetTranslation(Guid id)
         {
             var result = await _departmentService.GetTranslationById(id);
             if (result == null) return NotFound();
@@ -91,20 +91,26 @@ namespace LMS_API.Controllers.Departments
 
         [HttpPut("translations/{id}")]
         [Authorize(Roles = "SuperAdmin,Admin,Manager,Teacher")]
-        public async Task<IActionResult> EditTranslation(int id, [FromBody] EditDepartmentTranslationCommand command)
+        public async Task<IActionResult> EditTranslation(Guid id, [FromBody] EditDepartmentTranslationCommand command)
         {
             var requiredPermission = $"Translate_{command.Language}";
             if (!User.IsInRole("SuperAdmin") && !User.HasClaim(c => c.Type == "Permission" && c.Value == requiredPermission))
                 return Forbid();
 
-            var success = await _departmentService.EditTranslation(id, command);
-            if (!success) return NotFound();
-            return NoContent();
+            try
+            {
+                var updatedTranslation = await _departmentService.EditTranslation(id, command);
+                return Ok(updatedTranslation);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpDelete("translations/{id}")]
         [Authorize(Roles = "SuperAdmin,Admin,Manager")]
-        public async Task<IActionResult> DeleteTranslation(int id)
+        public async Task<IActionResult> DeleteTranslation(Guid id)
         {
             var translation = await _departmentService.GetTranslationById(id);
             if (translation == null)
@@ -117,6 +123,14 @@ namespace LMS_API.Controllers.Departments
             var success = await _departmentService.DeleteTranslation(id);
             if (!success) return NotFound();
             return NoContent();
+        }
+
+        [HttpGet("users-and-categories")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+        public async Task<IActionResult> GetNonStudentUsersAndCategories()
+        {
+            var result = await _departmentService.GetNonStudentUsersAndCategories();
+            return Ok(result);
         }
     }
 }

@@ -35,13 +35,21 @@ public class DepartmentService
     public async Task<List<DepartmentVM>> GetAllDepartments()
     {
         return await _context.Departments
+            .Include(d => d.Supervisor)    
+            .Include(d => d.Category)      
+            .Include(d => d.Translations)  
             .Select(d => _mapper.Map<DepartmentVM>(d))
             .ToListAsync();
     }
 
-    public async Task<DepartmentVM> GetDepartmentById(int id)
+    public async Task<DepartmentVM> GetDepartmentById(Guid id)
     {
-        var department = await _context.Departments.FindAsync(id);
+        var department = await _context.Departments
+            .Include(d => d.Supervisor)    
+            .Include(d => d.Category)     
+            .Include(d => d.Translations) 
+            .FirstOrDefaultAsync(d => d.Id == id);
+
         return department == null ? null : _mapper.Map<DepartmentVM>(department);
     }
 
@@ -49,7 +57,7 @@ public class DepartmentService
     {
         var supervisor = await _userManager.FindByIdAsync(command.SupervisorId);
 
-        if (supervisor == null || !(await _userManager.IsInRoleAsync(supervisor, "Supervisor")))
+        if (supervisor == null || (await _userManager.IsInRoleAsync(supervisor, "Student")))
         {
             _logger.LogWarning("Attempt to create a department with a non-supervisor user as supervisor.");
             throw new UnauthorizedAccessException("The specified user is not a supervisor.");
@@ -61,7 +69,7 @@ public class DepartmentService
         return _mapper.Map<DepartmentVM>(department);
     }
 
-    public async Task<bool> EditDepartment(int id, EditDepartmentCommand command)
+    public async Task<bool> EditDepartment(Guid id, EditDepartmentCommand command)
     {
         var department = await _context.Departments.FindAsync(id);
         if (department == null) return false;
@@ -71,7 +79,7 @@ public class DepartmentService
         return true;
     }
 
-    public async Task<bool> DeleteDepartment(int id)
+    public async Task<bool> DeleteDepartment(Guid id)
     {
         var department = await _context.Departments.FindAsync(id);
         if (department == null) return false;
@@ -88,7 +96,7 @@ public class DepartmentService
             .ToListAsync();
     }
 
-    public async Task<DepartmentTranslationVM> GetTranslationById(int id)
+    public async Task<DepartmentTranslationVM> GetTranslationById(Guid id)
     {
         var translation = await _context.DepartmentTranslations.FindAsync(id);
         return translation == null ? null : _mapper.Map<DepartmentTranslationVM>(translation);
@@ -102,17 +110,20 @@ public class DepartmentService
         return _mapper.Map<DepartmentTranslationVM>(translation);
     }
 
-    public async Task<bool> EditTranslation(int id, EditDepartmentTranslationCommand command)
+    public async Task<DepartmentTranslationVM> EditTranslation(Guid id, EditDepartmentTranslationCommand command)
     {
         var translation = await _context.DepartmentTranslations.FindAsync(id);
-        if (translation == null) return false;
+        if (translation == null)
+        {
+            throw new KeyNotFoundException($"Translation with ID {id} not found.");
+        }
 
         _mapper.Map(command, translation);
         await _context.SaveChangesAsync();
-        return true;
+        return _mapper.Map<DepartmentTranslationVM>(translation);
     }
 
-    public async Task<bool> DeleteTranslation(int id)
+    public async Task<bool> DeleteTranslation(Guid id)
     {
         var translation = await _context.DepartmentTranslations.FindAsync(id);
         if (translation == null) return false;
@@ -120,5 +131,46 @@ public class DepartmentService
         _context.DepartmentTranslations.Remove(translation);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<UsersAndCategoriesVM> GetNonStudentUsersAndCategories()
+    {
+        var users = await _context.Users
+            .Select(u => new ApplicationUser
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName
+            })
+            .ToListAsync();
+
+        var nonStudentUsers = new List<(ApplicationUser User, string Role)>();
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains("Student"))
+            {
+                var role = roles.FirstOrDefault(r => r != "Student") ?? "No Role";
+                nonStudentUsers.Add((user, role));
+            }
+        }
+
+        var categories = await _context.Categories
+            .ToListAsync();
+
+        return new UsersAndCategoriesVM
+        {
+            Users = nonStudentUsers.Select(u => new UserVM
+            {
+                Id = u.User.Id,
+                FullName = $"{u.User.FirstName} {u.User.LastName}",
+                Role = u.Role
+            }).ToList(),
+            Categories = categories.Select(c => new CategoryVM
+            {
+                Id = c.Id,
+                Name = c.Name
+            }).ToList()
+        };
     }
 }

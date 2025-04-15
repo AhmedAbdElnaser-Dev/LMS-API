@@ -1,7 +1,6 @@
-﻿using LMS_API.Models;
+using LMS_API.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 using System.Security.Claims;
 
 namespace LMS_API.Data
@@ -17,6 +16,8 @@ namespace LMS_API.Data
         }
 
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+
+        // DbSets
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTranslation> CoursesTranslations { get; set; }
         public DbSet<Book> Books { get; set; }
@@ -24,7 +25,7 @@ namespace LMS_API.Data
         public DbSet<Level> Levels { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Unit> Units { get; set; }
-        public DbSet<UnitTranslation> UnitTranslations { get; set; } 
+        public DbSet<UnitTranslation> UnitTranslations { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<LessonTranslation> LessonTranslations { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -40,9 +41,13 @@ namespace LMS_API.Data
         {
             base.OnModelCreating(builder);
 
-            // Convert Gender Enum to String
+            // Convert Gender Enum to String for ApplicationUser and Department
             builder.Entity<ApplicationUser>()
                    .Property(u => u.Gender)
+                   .HasConversion<string>();
+
+            builder.Entity<Department>()
+                   .Property(d => d.Gender)
                    .HasConversion<string>();
 
             // Course - Levels (One-to-Many)
@@ -113,26 +118,14 @@ namespace LMS_API.Data
                 .HasForeignKey(bt => bt.BookId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Enforce unique constraint on (Name, Language, BookId)
+            // Unique constraint on (Name, Language, BookId)
             builder.Entity<BookTranslation>()
                 .HasIndex(bt => new { bt.Name, bt.Language, bt.BookId })
                 .IsUnique();
 
-            // Create an index on Name for performance optimization
+            // Index on Name for performance
             builder.Entity<BookTranslation>()
                 .HasIndex(bt => bt.Name);
-
-            // Book - BookTranslations (One-to-Many)
-            builder.Entity<BookTranslation>()
-                .HasOne(bt => bt.Book)
-                .WithMany(b => b.Translations)
-                .HasForeignKey(bt => bt.BookId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Convert Gender Enum to String
-            builder.Entity<Department>()
-                   .Property(d => d.Gender)
-                   .HasConversion<string>();
 
             // Department - Category (Many-to-One)
             builder.Entity<Department>()
@@ -148,13 +141,6 @@ namespace LMS_API.Data
                 .HasForeignKey(d => d.SupervisorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Department - Courses (One-to-Many)
-            builder.Entity<Course>()
-                .HasOne(c => c.Category)
-                .WithMany()
-                .HasForeignKey(c => c.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             // Department - DepartmentTranslations (One-to-Many)
             builder.Entity<DepartmentTranslation>()
                 .HasOne(dt => dt.Department)
@@ -167,59 +153,47 @@ namespace LMS_API.Data
                 .HasIndex(dt => new { dt.Name, dt.Language, dt.DepartmentId })
                 .IsUnique();
 
-            // Group & Instructor (One-to-Many)
+            // Group - Instructor (One-to-Many)
             builder.Entity<Group>()
                 .HasOne(g => g.Instructor)
                 .WithMany()
                 .HasForeignKey(g => g.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Group & Course (One-to-Many)
-            builder.Entity<Group>()
-                .HasOne(g => g.Course)
-                .WithMany()
-                .HasForeignKey(g => g.CourseId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Group & GroupStudents (One-to-Many)
-            builder.Entity<Group>()
-                .HasMany(g => g.GroupStudents)
-                .WithOne(gs => gs.Group)
-                .HasForeignKey(gs => gs.GroupId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Group & Translations (One-to-Many)
-            builder.Entity<GroupTranslation>()
-                .HasOne(gt => gt.Group)
-                .WithMany()
-                .HasForeignKey(gt => gt.GroupId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Student & GroupStudent (One-to-Many)
-            builder.Entity<GroupStudent>()
-                .HasOne(gs => gs.Student)
-                .WithMany()
-                .HasForeignKey(gs => gs.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Define composite key for GroupTranslation
-            builder.Entity<GroupTranslation>()
-                .HasKey(gt => new { gt.GroupId, gt.Language });
-
-            // Ensure GroupId is a foreign key with cascading delete
-            builder.Entity<GroupTranslation>()
-                .HasOne(gt => gt.Group)
-                .WithMany()
-                .HasForeignKey(gt => gt.GroupId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Course to Groups Relationship (One-to-Many)
+            // Group - Course (One-to-Many)
             builder.Entity<Group>()
                 .HasOne(g => g.Course)
                 .WithMany(c => c.Groups)
                 .HasForeignKey(g => g.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Group - GroupStudents (One-to-Many)
+            builder.Entity<Group>()
+                .HasMany(g => g.GroupStudents)
+                .WithOne(gs => gs.Group)
+                .HasForeignKey(gs => gs.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Group - GroupTranslations (One-to-Many)
+            builder.Entity<GroupTranslation>()
+                .HasOne(gt => gt.Group)
+                .WithMany(g => g.Translations)
+                .HasForeignKey(gt => gt.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Unique constraint on (GroupId, Language)
+            builder.Entity<GroupTranslation>()
+                .HasIndex(gt => new { gt.GroupId, gt.Language })
+                .IsUnique();
+
+            // Student - GroupStudent (One-to-Many)
+            builder.Entity<GroupStudent>()
+                .HasOne(gs => gs.Student)
+                .WithMany()
+                .HasForeignKey(gs => gs.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // CourseBook (Many-to-Many)
             builder.Entity<CourseBook>()
                 .HasKey(cb => new { cb.CourseId, cb.BookId });
 
@@ -233,38 +207,40 @@ namespace LMS_API.Data
                 .WithMany(b => b.CourseBooks)
                 .HasForeignKey(cb => cb.BookId);
 
-            builder.Entity<GroupTranslation>()
-                .HasOne(gt => gt.Group)
-                .WithMany()
-                .HasForeignKey(gt => gt.GroupId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // Permission configuration
-            builder.Entity<Permission>(entity =>
-            {
-                entity.HasKey(p => p.Id);
-                entity.Property(p => p.Name).IsRequired().HasMaxLength(100);
-            });
+            builder.Entity<Permission>()
+                .HasKey(p => p.Id);
+
+            builder.Entity<Permission>()
+                .Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(100);
 
             // RolePermission configuration
-            builder.Entity<RolePermission>(entity =>
-            {
-                entity.HasKey(rp => rp.Id);
-                entity.HasOne(rp => rp.Role)
-                      .WithMany()
-                      .HasForeignKey(rp => rp.RoleId)
-                      .OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(rp => rp.Permission)
-                      .WithMany()
-                      .HasForeignKey(rp => rp.PermissionId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
+            builder.Entity<RolePermission>()
+                .HasKey(rp => rp.Id);
+
+            builder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany()
+                .HasForeignKey(rp => rp.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany()
+                .HasForeignKey(rp => rp.PermissionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Table name mappings
+            builder.Entity<Group>().ToTable("Groups");
+            builder.Entity<GroupTranslation>().ToTable("GroupsTranslations");
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-                ?? "System"; 
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                ?? "System";
 
             // Update audit fields for all tracked entities
             var entries = ChangeTracker.Entries<BaseEntity>();
@@ -292,8 +268,8 @@ namespace LMS_API.Data
 
         public override int SaveChanges()
         {
-            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-                            ?? "System";
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                ?? "System";
 
             var entries = ChangeTracker.Entries<BaseEntity>();
             foreach (var entry in entries)

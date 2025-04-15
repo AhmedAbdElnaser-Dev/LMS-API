@@ -3,88 +3,120 @@
   "WorkspaceRootPath": "E:\\Programming\\WEB\\projects\\LMS-API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\helpers\\permissionhelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\helpers\\permissionhelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\books\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\books\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\permissionsseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\permissionsseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\removestudentfromgroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\removestudentfromgroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\categoryseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\categoryseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\viewmodels\\studentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\viewmodels\\studentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\claimsseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\claimsseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\addstudenttogroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\addstudenttogroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\updategrouptranslationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\updategrouptranslationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\departmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\updategroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\updategroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\noopemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\noopemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\updatelessoncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\updatelessoncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\translationpermissionseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\translationpermissionseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\roleseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\roleseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\mappingprofiles\\usermappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\mappingprofiles\\usermappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\data\\dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\permission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\editcoursetranslationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\editcoursetranslationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\rolepermission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\rolepermission.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\enums\\gender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\enums\\gender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\users\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\users\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\coursetranslation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\coursetranslation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\models\\grouptranslation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\models\\grouptranslation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\viewmodels\\teacherviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\viewmodels\\teacherviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\viewmodels\\userviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\viewmodels\\userviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\services\\bookservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\users\\commands\\updateusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\users\\commands\\updateusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\creategrouptranslationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\creategrouptranslationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\users\\viewmodels\\uservm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\users\\viewmodels\\uservm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\viewmodels\\grouptranslationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\viewmodels\\grouptranslationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\departments\\deparmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\departments\\deparmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\viewmodels\\groupwithtranslationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\viewmodels\\groupwithtranslationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\groupdetailswithtranslationsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\groupdetailswithtranslationsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\viewmodels\\unitinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\viewmodels\\unitinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\controllers\\courses\\commands\\creategroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\controllers\\courses\\commands\\creategroupcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|e:\\programming\\web\\projects\\lms-api\\lms-api\\migrations\\20250413060336_check.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{471445C4-19C5-4D4B-95D0-DAADF1B5F734}|LMS-API\\LMS-API.csproj|solutionrelative:lms-api\\migrations\\20250413060336_check.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,7 +126,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,256 +134,357 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PermissionHelpers.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Helpers\\PermissionHelpers.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Helpers\\PermissionHelpers.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Helpers\\PermissionHelpers.cs",
-              "RelativeToolTip": "LMS-API\\Helpers\\PermissionHelpers.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAuwA8AAAA/AAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "RemoveStudentFromGroupCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\RemoveStudentFromGroupCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\RemoveStudentFromGroupCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\RemoveStudentFromGroupCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\RemoveStudentFromGroupCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-16T07:19:03.333Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PermissionsSeeder.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\PermissionsSeeder.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\PermissionsSeeder.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\PermissionsSeeder.cs",
-              "RelativeToolTip": "LMS-API\\Services\\PermissionsSeeder.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-16T06:40:42.579Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ClaimsSeeder.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\ClaimsSeeder.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\ClaimsSeeder.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\ClaimsSeeder.cs",
-              "RelativeToolTip": "LMS-API\\Services\\ClaimsSeeder.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T01:58:10.235Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Program.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Program.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Program.cs",
-              "RelativeToolTip": "LMS-API\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T23:10:30.694Z",
+              "WhenOpened": "2025-04-14T22:45:22.667Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CoursesController.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\CoursesController.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\CoursesController.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\CoursesController.cs",
-              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\CoursesController.cs",
-              "ViewState": "AgIAAP0AAAAAAAAAAAAuwB8BAAABAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "StudentViewModel.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\StudentViewModel.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\ViewModels\\StudentViewModel.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\StudentViewModel.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\ViewModels\\StudentViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T21:54:52.947Z"
+              "WhenOpened": "2025-04-14T22:13:15.906Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\UserService.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\UserService.cs",
-              "RelativeToolTip": "LMS-API\\Services\\UserService.cs",
-              "ViewState": "AgIAAM4AAAAAAAAAAAAuwPsAAAABAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "UpdateGroupTranslationCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupTranslationCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupTranslationCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupTranslationCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupTranslationCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T23:33:00.75Z"
+              "WhenOpened": "2025-04-14T19:17:21.694Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "CourseService.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\CourseService.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\CourseService.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\CourseService.cs",
-              "RelativeToolTip": "LMS-API\\Services\\CourseService.cs",
-              "ViewState": "AgIAAAwDAAAAAAAAAAAiwCIDAAAcAAAAAAAAAA==",
+              "Title": "UserMappingProfile.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\MappingProfiles\\UserMappingProfile.cs",
+              "RelativeDocumentMoniker": "LMS-API\\MappingProfiles\\UserMappingProfile.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\MappingProfiles\\UserMappingProfile.cs",
+              "RelativeToolTip": "LMS-API\\MappingProfiles\\UserMappingProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T23:55:01.05Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BooksController.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Books\\BooksController.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Books\\BooksController.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Books\\BooksController.cs",
-              "RelativeToolTip": "LMS-API\\Controllers\\Books\\BooksController.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAcwIUAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T21:52:30.946Z"
+              "WhenOpened": "2025-04-13T20:37:46.615Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "DepartmentService.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\DepartmentService.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\DepartmentService.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\DepartmentService.cs",
-              "RelativeToolTip": "LMS-API\\Services\\DepartmentService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-16T06:30:16.087Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "NoOpEmailSender.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\NoOpEmailSender.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\NoOpEmailSender.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\NoOpEmailSender.cs",
-              "RelativeToolTip": "LMS-API\\Services\\NoOpEmailSender.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-16T06:30:14.452Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TranslationPermissionSeeder.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\TranslationPermissionSeeder.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\TranslationPermissionSeeder.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\TranslationPermissionSeeder.cs",
-              "RelativeToolTip": "LMS-API\\Services\\TranslationPermissionSeeder.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAowDUAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T02:17:52.029Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
               "Title": "DBContext.cs",
               "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Data\\DBContext.cs",
               "RelativeDocumentMoniker": "LMS-API\\Data\\DBContext.cs",
               "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Data\\DBContext.cs",
               "RelativeToolTip": "LMS-API\\Data\\DBContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAgwBYAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T04:15:56.221Z"
+              "WhenOpened": "2025-04-12T18:02:29.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CoursesController.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\CoursesController.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\CoursesController.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\CoursesController.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\CoursesController.cs",
+              "ViewState": "AgIAAI8BAAAAAAAAAAAAwJQBAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-11T11:50:49.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CourseService.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\CourseService.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Services\\CourseService.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\CourseService.cs",
+              "RelativeToolTip": "LMS-API\\Services\\CourseService.cs",
+              "ViewState": "AgIAAAQFAAAAAAAAAAAAwCcFAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-11T11:04:18.461Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AddStudentToGroupCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\AddStudentToGroupCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\AddStudentToGroupCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\AddStudentToGroupCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\AddStudentToGroupCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T06:26:18.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UpdateLessonCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\UpdateLessonCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\UpdateLessonCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\UpdateLessonCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\UpdateLessonCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T08:11:26.276Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "CategorySeeder.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\CategorySeeder.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\CategorySeeder.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\CategorySeeder.cs",
-              "RelativeToolTip": "LMS-API\\Services\\CategorySeeder.cs",
+              "Title": "UpdateGroupCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\UpdateGroupCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T08:11:27.264Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "EditCourseTranslationCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\EditCourseTranslationCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\EditCourseTranslationCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\EditCourseTranslationCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\EditCourseTranslationCommand.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T02:12:05.659Z"
+              "WhenOpened": "2025-04-14T08:11:12.876Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Gender.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Enums\\Gender.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\Enums\\Gender.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Enums\\Gender.cs",
+              "RelativeToolTip": "LMS-API\\Models\\Enums\\Gender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T20:31:10.228Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "Permission.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Permission.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Models\\Permission.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Permission.cs",
-              "RelativeToolTip": "LMS-API\\Models\\Permission.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Title": "CourseTranslation.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\CourseTranslation.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\CourseTranslation.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\CourseTranslation.cs",
+              "RelativeToolTip": "LMS-API\\Models\\CourseTranslation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T04:11:37.629Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "RolePermission.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\RolePermission.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Models\\RolePermission.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\RolePermission.cs",
-              "RelativeToolTip": "LMS-API\\Models\\RolePermission.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T04:12:24.576Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "RoleSeeder.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\RoleSeeder.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Services\\RoleSeeder.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\RoleSeeder.cs",
-              "RelativeToolTip": "LMS-API\\Services\\RoleSeeder.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T21:31:01.909Z"
+              "WhenOpened": "2025-04-13T20:07:14.054Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Users\\UsersController.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Users\\UsersController.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Users\\UsersController.cs",
-              "RelativeToolTip": "LMS-API\\Controllers\\Users\\UsersController.cs",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAiwH0AAAAAAAAAAAAAAA==",
+              "Title": "Category.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Category.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\Category.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Category.cs",
+              "RelativeToolTip": "LMS-API\\Models\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T22:50:35.713Z"
+              "WhenOpened": "2025-04-13T20:06:56.348Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 17,
+              "Title": "GroupTranslation.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\GroupTranslation.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\GroupTranslation.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\GroupTranslation.cs",
+              "RelativeToolTip": "LMS-API\\Models\\GroupTranslation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T18:01:24.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Course.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Course.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\Course.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Course.cs",
+              "RelativeToolTip": "LMS-API\\Models\\Course.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T17:59:47.643Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Department.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Department.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\Department.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Department.cs",
+              "RelativeToolTip": "LMS-API\\Models\\Department.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-11T10:55:14.334Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\CategoriesController.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T18:03:18.986Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Group.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Group.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Models\\Group.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Models\\Group.cs",
+              "RelativeToolTip": "LMS-API\\Models\\Group.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAACEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-11T10:54:27.484Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TeacherViewModel.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\TeacherViewModel.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\ViewModels\\TeacherViewModel.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\TeacherViewModel.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\ViewModels\\TeacherViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T19:12:52.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "20250413060336_check.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Migrations\\20250413060336_check.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Migrations\\20250413060336_check.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Migrations\\20250413060336_check.cs",
+              "RelativeToolTip": "LMS-API\\Migrations\\20250413060336_check.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T06:03:36.697Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UserViewModel.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\UserViewModel.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\ViewModels\\UserViewModel.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\UserViewModel.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\ViewModels\\UserViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T03:20:40.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "UnitInfo.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\UnitInfo.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\ViewModels\\UnitInfo.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\UnitInfo.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\ViewModels\\UnitInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T03:20:32.212Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "GroupWithTranslationViewModel.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\GroupWithTranslationViewModel.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\ViewModels\\GroupWithTranslationViewModel.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\GroupWithTranslationViewModel.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\ViewModels\\GroupWithTranslationViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T03:20:20.646Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "GroupTranslationViewModel.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\GroupTranslationViewModel.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\ViewModels\\GroupTranslationViewModel.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\ViewModels\\GroupTranslationViewModel.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\ViewModels\\GroupTranslationViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T03:05:06.137Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CreateGroupTranslationCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\CreateGroupTranslationCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\CreateGroupTranslationCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\CreateGroupTranslationCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\CreateGroupTranslationCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T04:22:11.196Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
               "Title": "BookService.cs",
               "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\BookService.cs",
               "RelativeDocumentMoniker": "LMS-API\\Services\\BookService.cs",
               "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Services\\BookService.cs",
               "RelativeToolTip": "LMS-API\\Services\\BookService.cs",
-              "ViewState": "AgIAAAcBAAAAAAAAAAAUwFABAAASAAAAAAAAAA==",
+              "ViewState": "AgIAADkBAAAAAAAAAAAUwBcAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T23:38:20.661Z"
+              "WhenOpened": "2025-04-12T04:22:46.804Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UpdateUserCommand.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Users\\Commands\\UpdateUserCommand.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Users\\Commands\\UpdateUserCommand.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Users\\Commands\\UpdateUserCommand.cs",
-              "RelativeToolTip": "LMS-API\\Controllers\\Users\\Commands\\UpdateUserCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAiAAAAAAAAAA==",
+              "DocumentIndex": 25,
+              "Title": "GroupDetailsWithTranslationsViewModel.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\GroupDetailsWithTranslationsViewModel.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\GroupDetailsWithTranslationsViewModel.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\GroupDetailsWithTranslationsViewModel.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\GroupDetailsWithTranslationsViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T23:46:30.364Z"
+              "WhenOpened": "2025-04-12T03:04:34.359Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "UserVM.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Users\\ViewModels\\UserVM.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Users\\ViewModels\\UserVM.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Users\\ViewModels\\UserVM.cs",
-              "RelativeToolTip": "LMS-API\\Controllers\\Users\\ViewModels\\UserVM.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA0AAAA4AAAAAAAAAA==",
+              "DocumentIndex": 27,
+              "Title": "CreateGroupCommand.cs",
+              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\CreateGroupCommand.cs",
+              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Courses\\Commands\\CreateGroupCommand.cs",
+              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Courses\\Commands\\CreateGroupCommand.cs",
+              "RelativeToolTip": "LMS-API\\Controllers\\Courses\\Commands\\CreateGroupCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T23:48:27.275Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "DeparmentsController.cs",
-              "DocumentMoniker": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Departments\\DeparmentsController.cs",
-              "RelativeDocumentMoniker": "LMS-API\\Controllers\\Departments\\DeparmentsController.cs",
-              "ToolTip": "E:\\Programming\\WEB\\projects\\LMS-API\\LMS-API\\Controllers\\Departments\\DeparmentsController.cs",
-              "RelativeToolTip": "LMS-API\\Controllers\\Departments\\DeparmentsController.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAUwHkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T21:56:52.691Z"
+              "WhenOpened": "2025-04-11T10:53:32.86Z"
             }
           ]
         }

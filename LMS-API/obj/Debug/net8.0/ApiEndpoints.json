@@ -108,6 +108,11 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "PdfFile",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
@@ -254,6 +259,59 @@
   },
   {
     "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "DeleteCourse",
+    "RelativePath": "api/courses/{courseId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "EditCourse",
+    "RelativePath": "api/courses/{courseId}/edit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Courses.Commands.EditCourseCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "GetCourseFullDetails",
+    "RelativePath": "api/courses/{courseId}/full-details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
     "Method": "GetCourseWithTranslation",
     "RelativePath": "api/courses/{courseId}/translation/{language}",
     "HttpMethod": "GET",
@@ -291,6 +349,16 @@
   },
   {
     "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "GetAllCoursesDetailed",
+    "RelativePath": "api/courses/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
     "Method": "GetAllCoursesWithTranslation",
     "RelativePath": "api/courses/all/translation/{language}",
     "HttpMethod": "GET",
@@ -300,6 +368,22 @@
       {
         "Name": "language",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "GetCourseGroups",
+    "RelativePath": "api/courses/courses/{courseId}/groups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -349,6 +433,69 @@
   },
   {
     "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "GetGroupDetails",
+    "RelativePath": "api/courses/groups/{groupId}/details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "AddStudentToGroup",
+    "RelativePath": "api/courses/groups/{groupId}/students",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Courses.Commands.AddStudentToGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "RemoveStudentFromGroup",
+    "RelativePath": "api/courses/groups/{groupId}/students/{studentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "studentId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Courses.Commands.RemoveStudentFromGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
     "Method": "GetGroupWithTranslation",
     "RelativePath": "api/courses/groups/{groupId}/translation/{language}",
     "HttpMethod": "GET",
@@ -363,6 +510,53 @@
       {
         "Name": "language",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "AddGroupTranslation",
+    "RelativePath": "api/courses/groups/{groupId}/translations",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Courses.Commands.CreateGroupTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "UpdateGroupTranslation",
+    "RelativePath": "api/courses/groups/{groupId}/translations/{language}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "language",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Courses.Commands.UpdateGroupTranslationCommand",
         "IsRequired": true
       }
     ],
@@ -430,6 +624,26 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "GetStudents",
+    "RelativePath": "api/courses/students",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.CoursesController",
+    "Method": "GetTeachers",
+    "RelativePath": "api/courses/teachers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -607,7 +821,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -623,7 +837,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -644,7 +858,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -696,7 +910,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
@@ -712,7 +926,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
@@ -733,10 +947,20 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Guid",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Departments.DepartmentsController",
+    "Method": "GetNonStudentUsersAndCategories",
+    "RelativePath": "api/Departments/users-and-categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

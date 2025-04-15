@@ -12,37 +12,32 @@ builder.Services.AddDbContext<DBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
     {
-        sqlOptions.CommandTimeout(120); 
+        sqlOptions.CommandTimeout(120);
     });
 });
 
-// 1. Configure Authentication first
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 })
-.AddBearerToken(IdentityConstants.BearerScheme) 
-.AddIdentityCookies();  
+.AddBearerToken(IdentityConstants.BearerScheme)
+.AddIdentityCookies();
 
-// 2. Configure Identity Core with RoleManager Fix
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
 })
-.AddRoles<IdentityRole>() 
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<DBContext>()
 .AddDefaultTokenProviders()
 .AddSignInManager()
-.AddApiEndpoints();  
+.AddApiEndpoints();
 
-// Register RoleManager explicitly
 builder.Services.AddScoped<RoleManager<IdentityRole>>();
 
-// 3. Configure Authorization
 builder.Services.AddAuthorization();
 
-// 4. Configure Application Cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.SameSite = SameSiteMode.None;
@@ -53,16 +48,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.IsEssential = true;
 });
 
-// 5. Controllers and services
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<PermissionsSeeder>(); 
+builder.Services.AddScoped<PermissionsSeeder>();
+builder.Services.AddHttpContextAccessor();
 
-// 6. Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -94,7 +88,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// 7. CORS configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
@@ -106,45 +99,44 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 8. Email service
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, NoOpEmailSender>();
 
-// 9. Logging configuration
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 var app = builder.Build();
 
-// 10. Middleware pipeline
-app.UseAuthentication();  // Must come first
+app.UseAuthentication();
 app.UseAuthorization();
 
-// 11. Map Identity API endpoints
 app.MapIdentityApi<ApplicationUser>();
 
-// 12. Development configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// 13. Apply CORS policy
 app.UseCors("AllowSpecificOrigins");
 
-// 14. Seed roles
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "uploads")),
+    RequestPath = "/api/uploads"
+});
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await RoleSeeder.SeedRoles(services);
     await CategorySeeder.SeedCategories(services);
 
-    var seeder = scope.ServiceProvider.GetRequiredService<PermissionsSeeder>(); 
+    var seeder = scope.ServiceProvider.GetRequiredService<PermissionsSeeder>();
     await seeder.SeedAsync();
 }
 
-// 15. Other Middleware
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

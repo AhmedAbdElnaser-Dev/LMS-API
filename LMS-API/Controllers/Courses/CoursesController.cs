@@ -33,6 +33,32 @@ namespace LMS_API.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllCoursesDetailed()
+        {
+            if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "View_Courses"))
+                return Forbid();
+
+            var (success, courses, errorMessage) = await _courseService.GetAllCoursesDetailedAsync();
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(courses);
+        }
+
+        [HttpGet("{courseId}/full-details")]
+        public async Task<IActionResult> GetCourseFullDetails(Guid courseId)
+        {
+            if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "View_Course"))
+                return Forbid();
+
+            var (success, course, errorMessage) = await _courseService.GetCourseFullDetailsAsync(courseId);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(course);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddCourse([FromBody] AddCourseCommand command)
         {
@@ -51,6 +77,35 @@ namespace LMS_API.Controllers
                 return BadRequest(new { Message = errorMessage });
 
             return Ok(new { Message = "Course added successfully", CourseId = course!.Id });
+        }
+
+        [HttpPut("{courseId}/edit")]
+        public async Task<IActionResult> EditCourse(Guid courseId, [FromBody] EditCourseCommand command)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var (success, course, errorMessage) = await _courseService.EditCourseAsync(userId, courseId, command);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(new { Message = "Course updated successfully", CourseId = course!.Id });
+        }
+
+        [HttpDelete("{courseId}")]
+        public async Task<IActionResult> DeleteCourse(Guid courseId)
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "Delete_Course"))
+            //    return Forbid();
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { Message = "Invalid or missing token" });
+
+            var (success, errorMessage) = await _courseService.DeleteCourseAsync(userId, courseId);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(new { Message = "Course deleted successfully" });
         }
 
         [HttpPut("update-category")]
@@ -235,6 +290,43 @@ namespace LMS_API.Controllers
             return Ok(new { Message = "Group created", GroupId = group!.Id });
         }
 
+        [HttpGet("courses/{courseId}/groups")]
+        public async Task<IActionResult> GetCourseGroups(Guid courseId)
+        {
+            if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "View_Groups"))
+                return Forbid();
+
+            var (success, groups, errorMessage) = await _courseService.GetCourseGroupsAsync(courseId);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+            return Ok(groups);
+        }
+
+        [HttpGet("groups/{groupId}/details")]
+        public async Task<IActionResult> GetGroupDetails(Guid groupId)
+        {
+            if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "View_Group"))
+                return Forbid();
+
+            var (success, group, errorMessage) = await _courseService.GetGroupDetailsWithTranslationsAsync(groupId);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+            return Ok(group);
+        }
+
+        [HttpPost("groups/{groupId}/translations")]
+        public async Task<IActionResult> AddGroupTranslation(Guid groupId, [FromBody] CreateGroupTranslationCommand command)
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "Add_Group_Translation"))
+            //    return Forbid();
+
+            command.GroupId = groupId; 
+            var (success, translationId, errorMessage) = await _courseService.AddGroupTranslationAsync(command);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+            return Ok(new { Message = "Translation added", TranslationId = translationId });
+        }
+
         [HttpGet("groups/{groupId}/translation/{language}")]
         public async Task<IActionResult> GetGroupWithTranslation(Guid groupId, string language)
         {
@@ -273,6 +365,22 @@ namespace LMS_API.Controllers
             return Ok(new { Message = "Group updated" });
         }
 
+        [HttpPut("groups/{groupId}/translations/{language}")]
+        public async Task<IActionResult> UpdateGroupTranslation(Guid groupId, string language, [FromBody] UpdateGroupTranslationCommand command)
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "Update_Group_Translation"))
+            //    return Forbid();
+
+            if (command.GroupId != groupId || command.Language != language)
+                return BadRequest(new { Message = "GroupId or Language in body must match URL parameters." });
+
+            var (success, errorMessage) = await _courseService.UpdateGroupTranslationAsync(command);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(new { Message = "Group translation updated successfully" });
+        }
+
         [HttpDelete("groups/delete")]
         public async Task<IActionResult> DeleteGroup([FromBody] DeleteGroupCommand command)
         {
@@ -283,6 +391,74 @@ namespace LMS_API.Controllers
             if (!success)
                 return BadRequest(new { Message = errorMessage });
             return Ok(new { Message = "Group deleted" });
+        }
+
+        [HttpPost("groups/{groupId}/students")]
+        public async Task<IActionResult> AddStudentToGroup(Guid groupId, [FromBody] AddStudentToGroupCommand command)
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "Add_Student_To_Group"))
+            //    return StatusCode(403, new { Message = "Permission denied" });
+
+            if (command.GroupId != groupId)
+                return BadRequest(new { Message = "GroupId in body must match URL parameter." });
+
+            var (success, errorMessage) = await _courseService.AddStudentToGroupAsync(command);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(new
+            {
+                Message = "Student added to group successfully",
+                GroupId = command.GroupId,
+                StudentId = command.StudentId
+            });
+        }
+
+        [HttpDelete("groups/{groupId}/students/{studentId}")]
+        public async Task<IActionResult> RemoveStudentFromGroup(Guid groupId, string studentId, [FromBody] RemoveStudentFromGroupCommand command)
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "Remove_Student_From_Group"))
+            //    return StatusCode(403, new { Message = "Permission denied" });
+
+            if (command.GroupId != groupId || command.StudentId != studentId)
+                return BadRequest(new { Message = "GroupId or StudentId in body must match URL parameters." });
+
+            var (success, errorMessage) = await _courseService.RemoveStudentFromGroupAsync(command);
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(new
+            {
+                Message = "Student removed from group successfully",
+                GroupId = command.GroupId,
+                StudentId = command.StudentId
+            });
+        }
+
+        [HttpGet("teachers")]
+        public async Task<IActionResult> GetTeachers()
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "View_Teachers"))
+            //    return Forbid();
+
+            var (success, teachers, errorMessage) = await _courseService.GetTeachersAsync();
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(teachers);
+        }
+
+        [HttpGet("students")]
+        public async Task<IActionResult> GetStudents()
+        {
+            //if (!await PermissionHelpers.HasPermissionAsync(_context, _httpContextAccessor.HttpContext, "View_Students"))
+            //    return StatusCode(403, new { Message = "Permission denied" });
+
+            var (success, students, errorMessage) = await _courseService.GetStudentsAsync();
+            if (!success)
+                return BadRequest(new { Message = errorMessage });
+
+            return Ok(students);
         }
     }
 }

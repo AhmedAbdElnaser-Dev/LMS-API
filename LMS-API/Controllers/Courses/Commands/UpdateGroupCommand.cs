@@ -3,8 +3,8 @@
     public class UpdateGroupCommand
     {
         public Guid GroupId { get; set; }
+        public string Name { get; set; }    
         public string InstructorId { get; set; }
         public int MaxStudents { get; set; }
-        public List<GroupTranslationCommand> Translations { get; set; } = new();
     }
 }

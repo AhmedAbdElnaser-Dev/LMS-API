@@ -1,14 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
-
-public enum Gender
-{
-    Male,
-    Female,
-    Other,
-    PreferNotToSay
-}
+using LMS_API.Models.Enums;
 
 namespace LMS_API.Models
 {

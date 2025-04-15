@@ -2,7 +2,9 @@
 {
     public class AddCourseCommand
     {
+        public string Name { get; set; }
+        public Guid DepartmentId { get; set; }
         public Guid CategoryId { get; set; }
-        public List<Guid> BookIds { get; set; } = new();
+        public List<Guid> BookIds { get; set; }
     }
 }

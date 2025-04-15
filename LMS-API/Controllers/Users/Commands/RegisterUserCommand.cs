@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System;
+using System.ComponentModel.DataAnnotations;
+using LMS_API.Models.Enums;
 
 namespace LMS_API.Controllers.Users.Commands
 {
