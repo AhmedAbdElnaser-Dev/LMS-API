@@ -53,6 +53,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<GroupService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<PermissionsSeeder>();
 builder.Services.AddHttpContextAccessor();

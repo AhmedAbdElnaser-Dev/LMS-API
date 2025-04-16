@@ -375,243 +375,6 @@
   },
   {
     "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetCourseGroups",
-    "RelativePath": "api/courses/courses/{courseId}/groups",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "courseId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetAllGroupsForCourse",
-    "RelativePath": "api/courses/courses/{courseId}/groups/translation/{language}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "courseId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "language",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetAllUnitsForCourse",
-    "RelativePath": "api/courses/courses/{courseId}/units/translation/{language}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "courseId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "language",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetGroupDetails",
-    "RelativePath": "api/courses/groups/{groupId}/details",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "groupId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "AddStudentToGroup",
-    "RelativePath": "api/courses/groups/{groupId}/students",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "groupId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.AddStudentToGroupCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "RemoveStudentFromGroup",
-    "RelativePath": "api/courses/groups/{groupId}/students/{studentId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "groupId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "studentId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.RemoveStudentFromGroupCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetGroupWithTranslation",
-    "RelativePath": "api/courses/groups/{groupId}/translation/{language}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "groupId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "language",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "AddGroupTranslation",
-    "RelativePath": "api/courses/groups/{groupId}/translations",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "groupId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.CreateGroupTranslationCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "UpdateGroupTranslation",
-    "RelativePath": "api/courses/groups/{groupId}/translations/{language}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "groupId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "language",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.UpdateGroupTranslationCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "CreateGroup",
-    "RelativePath": "api/courses/groups/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.CreateGroupCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "DeleteGroup",
-    "RelativePath": "api/courses/groups/delete",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.DeleteGroupCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "UpdateGroup",
-    "RelativePath": "api/courses/groups/update",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.UpdateGroupCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
     "Method": "RemoveBook",
     "RelativePath": "api/courses/remove-book",
     "HttpMethod": "DELETE",
@@ -624,26 +387,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetStudents",
-    "RelativePath": "api/courses/students",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetTeachers",
-    "RelativePath": "api/courses/teachers",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -664,22 +407,6 @@
   },
   {
     "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "DeleteCourseTranslation",
-    "RelativePath": "api/courses/translations/delete",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.DeleteCourseTranslationCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
     "Method": "EditCourseTranslation",
     "RelativePath": "api/courses/translations/edit",
     "HttpMethod": "PUT",
@@ -689,75 +416,6 @@
       {
         "Name": "command",
         "Type": "LMS_API.Controllers.Courses.Commands.EditCourseTranslationCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "GetUnitWithTranslation",
-    "RelativePath": "api/courses/units/{unitId}/translation/{language}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "unitId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "language",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "CreateUnit",
-    "RelativePath": "api/courses/units/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.CreateUnitCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "DeleteUnit",
-    "RelativePath": "api/courses/units/delete",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.DeleteUnitCommand",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LMS_API.Controllers.CoursesController",
-    "Method": "UpdateUnit",
-    "RelativePath": "api/courses/units/update",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "command",
-        "Type": "LMS_API.Controllers.Courses.Commands.UpdateUnitCommand",
         "IsRequired": true
       }
     ],
@@ -961,6 +619,348 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "GetGroupDetails",
+    "RelativePath": "api/groups/{groupId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "GetGroupStudents",
+    "RelativePath": "api/groups/{groupId}/students",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "AddStudent",
+    "RelativePath": "api/groups/add-student",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Groups.Commands.AddStudentToGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "AddGroupToCourse",
+    "RelativePath": "api/groups/add-to-course",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Groups.Commands.AddGroupToCourseCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "AddGroupTranslation",
+    "RelativePath": "api/groups/add-translation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Groups.Commands.AddGroupTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "GetCourseGroups",
+    "RelativePath": "api/groups/course/{courseId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "EditGroup",
+    "RelativePath": "api/groups/edit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Groups.Commands.EditGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "RemoveStudent",
+    "RelativePath": "api/groups/remove-student",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Groups.Commands.RemoveStudentFromGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "UpdateGroupTranslation",
+    "RelativePath": "api/groups/update-translation",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Groups.Commands.UpdateGroupTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Lessons.LessonsController",
+    "Method": "CreateLesson",
+    "RelativePath": "api/Lessons",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Lessons.Commands.AddLessonCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Lessons.ViewModels.LessonViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Lessons.LessonsController",
+    "Method": "UpdateLesson",
+    "RelativePath": "api/Lessons/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Lessons.Commands.EditLessonCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Lessons.ViewModels.LessonViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Lessons.LessonsController",
+    "Method": "GetLesson",
+    "RelativePath": "api/Lessons/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Lessons.ViewModels.LessonViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Lessons.LessonsController",
+    "Method": "DeleteLesson",
+    "RelativePath": "api/Lessons/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Units.UnitsController",
+    "Method": "CreateUnit",
+    "RelativePath": "api/Units",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Units.Commands.AddUnitCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Units.ViewModels.UnitViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Units.UnitsController",
+    "Method": "UpdateUnit",
+    "RelativePath": "api/Units/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Units.Commands.EditUnitCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Units.ViewModels.UnitViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Units.UnitsController",
+    "Method": "GetUnit",
+    "RelativePath": "api/Units/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Units.ViewModels.UnitViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Units.UnitsController",
+    "Method": "DeleteUnit",
+    "RelativePath": "api/Units/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

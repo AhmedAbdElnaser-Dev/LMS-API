@@ -1,10 +1,12 @@
-﻿namespace LMS_API.Controllers.Courses.Commands
+using System;
+
+namespace LMS_API.Controllers.Groups.Commands
 {
-    public class CreateGroupCommand
+    public class AddGroupToCourseCommand
     {
         public Guid CourseId { get; set; }
-        public string Name { get; set; }
         public string InstructorId { get; set; }
+        public string Name { get; set; }
         public int MaxStudents { get; set; }
     }
 }

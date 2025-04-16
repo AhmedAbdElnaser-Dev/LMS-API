@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System;
 
-namespace LMS_API.Controllers.Courses.Commands
+namespace LMS_API.Controllers.Groups.Commands
 {
     public class RemoveStudentFromGroupCommand
     {

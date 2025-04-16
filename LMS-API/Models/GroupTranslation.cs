@@ -9,9 +9,9 @@ namespace LMS_API.Models
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
+        [ForeignKey("GroupId")]
         public Guid GroupId { get; set; }
 
-        [ForeignKey("GroupId")]
         public Group Group { get; set; }
 
 

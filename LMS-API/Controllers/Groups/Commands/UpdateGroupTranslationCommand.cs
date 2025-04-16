@@ -1,4 +1,6 @@
-﻿namespace LMS_API.Controllers.Courses.Commands
+using System;
+
+namespace LMS_API.Controllers.Groups.Commands
 {
     public class UpdateGroupTranslationCommand
     {
