@@ -10,6 +10,5 @@ namespace LMS_API.Controllers.Units.Commands
     {
         public Guid CourseId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
     }
 }

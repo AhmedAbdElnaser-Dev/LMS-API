@@ -169,5 +169,35 @@ namespace LMS_API.Controllers
         {
             return Ok("Test");
         }
+
+        [HttpGet("students")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+        public async Task<IActionResult> GetStudents()
+        {
+            try
+            {
+                var students = await _userService.GetStudentsAsync();
+                return Ok(new { Message = "Students retrieved successfully", Students = students });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = $"Failed to retrieve students: {ex.Message}" });
+            }
+        }
+
+        [HttpGet("teachers")]
+        [Authorize(Roles = "SuperAdmin,Admin,Manager")]
+        public async Task<IActionResult> GetTeachers()
+        {
+            try
+            {
+                var teachers = await _userService.GetTeachersAsync();
+                return Ok(new { Message = "Teachers retrieved successfully", Teachers = teachers });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = $"Failed to retrieve teachers: {ex.Message}" });
+            }
+        }
     }
 }

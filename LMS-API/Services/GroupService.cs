@@ -371,6 +371,7 @@ namespace LMS_API.Services
                 return (false, null, $"An error occurred: {ex.Message}");
             }
         }
+        
         public async Task<(bool Success, Group Group, string ErrorMessage)> EditGroupAsync(EditGroupCommand command)
         {
             try
@@ -434,6 +435,37 @@ namespace LMS_API.Services
             {
                 _logger.LogError(ex, "Error getting group students");
                 return (false, null, "Error retrieving students");
+            }
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> DeleteGroupAsync(Guid groupId)
+        {
+            try
+            {
+                var group = await _context.Groups
+                    .FirstOrDefaultAsync(g => g.Id == groupId);
+
+                if (group == null)
+                {
+                    _logger.LogWarning("Group {GroupId} not found", groupId);
+                    return (false, "Group not found.");
+                }
+
+                _context.Groups.Remove(group);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Deleted group {GroupId}", groupId);
+                return (true, null);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database error deleting group {GroupId}", groupId);
+                return (false, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting group {GroupId}", groupId);
+                return (false, $"An error occurred: {ex.Message}");
             }
         }
     }

@@ -13,6 +13,10 @@ namespace LMS_API.Models
         public string Title { get; set; }
 
         [Required]
+        [StringLength(1000)]
+        public string Description { get; set; }
+
+        [Required]
         public Guid UnitId { get; set; }
         public Unit Unit { get; set; }
 

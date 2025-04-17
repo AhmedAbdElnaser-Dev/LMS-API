@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace LMS_API.Models
 {
+    [Index(nameof(UnitId), nameof(Language), nameof(Name), IsUnique = true)]
     public class UnitTranslation:  BaseEntity
     {
         public Guid Id { get; set; } = Guid.NewGuid();

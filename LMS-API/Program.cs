@@ -53,7 +53,9 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<DepartmentService>();
 builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<LessonService>();
 builder.Services.AddScoped<GroupService>();
+builder.Services.AddScoped<UnitService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<PermissionsSeeder>();
 builder.Services.AddHttpContextAccessor();
@@ -128,15 +130,15 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/api/uploads"
 });
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    await RoleSeeder.SeedRoles(services);
-    await CategorySeeder.SeedCategories(services);
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    await RoleSeeder.SeedRoles(services);
+//    await CategorySeeder.SeedCategories(services);
 
-    var seeder = scope.ServiceProvider.GetRequiredService<PermissionsSeeder>();
-    await seeder.SeedAsync();
-}
+//    var seeder = scope.ServiceProvider.GetRequiredService<PermissionsSeeder>();
+//    await seeder.SeedAsync();
+//}
 
 app.UseHttpsRedirection();
 app.MapControllers();

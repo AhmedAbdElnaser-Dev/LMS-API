@@ -639,6 +639,22 @@
   },
   {
     "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
+    "Method": "DeleteGroup",
+    "RelativePath": "api/groups/{groupId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "groupId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Groups.GroupsController",
     "Method": "GetGroupStudents",
     "RelativePath": "api/groups/{groupId}/students",
     "HttpMethod": "GET",
@@ -865,6 +881,63 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "LMS_API.Controllers.Lessons.LessonsController",
+    "Method": "AddTranslation",
+    "RelativePath": "api/Lessons/translation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Lessons.Commands.AddLessonTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Lessons.ViewModels.LessonTranslationViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Lessons.LessonsController",
+    "Method": "UpdateTranslation",
+    "RelativePath": "api/Lessons/translation/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Lessons.Commands.EditLessonTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LMS_API.Controllers.Lessons.ViewModels.LessonTranslationViewModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "LMS_API.Controllers.Units.UnitsController",
     "Method": "CreateUnit",
     "RelativePath": "api/Units",
@@ -958,6 +1031,53 @@
       {
         "Name": "id",
         "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Units.UnitsController",
+    "Method": "AddTranslation",
+    "RelativePath": "api/Units/{unitId}/translations",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unitId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Units.Commands.AddUnitTranslationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.Units.UnitsController",
+    "Method": "UpdateTranslation",
+    "RelativePath": "api/Units/{unitId}/translations/{language}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "unitId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "language",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "command",
+        "Type": "LMS_API.Controllers.Units.Commands.UpdateUnitTranslationCommand",
         "IsRequired": true
       }
     ],
@@ -1072,6 +1192,26 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.UsersController",
+    "Method": "GetStudents",
+    "RelativePath": "api/users/students",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LMS_API.Controllers.UsersController",
+    "Method": "GetTeachers",
+    "RelativePath": "api/users/teachers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

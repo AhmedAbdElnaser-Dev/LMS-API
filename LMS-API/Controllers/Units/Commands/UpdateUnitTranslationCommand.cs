@@ -1,10 +1,7 @@
-using System;
-
 namespace LMS_API.Controllers.Units.Commands
 {
-    public class EditUnitCommand
+    public class UpdateUnitTranslationCommand
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

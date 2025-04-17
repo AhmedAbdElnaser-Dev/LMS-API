@@ -8,7 +8,6 @@ namespace LMS_API.Controllers.Units.ViewModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public Guid CourseId { get; set; }
         public List<LessonViewModel> Lessons { get; set; } = new();
     }

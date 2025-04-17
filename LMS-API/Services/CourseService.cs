@@ -120,7 +120,7 @@ namespace LMS_API.Services
                     Units = course.Units.Select(u => new UnitInfo
                     {
                         Id = u.Id,
-                        Name = u.Translations.FirstOrDefault()?.Name ?? "Unnamed Unit",
+                        Name = u.Name ?? "Unnamed Unit",
                         LessonCount = u.Lessons.Count
                     }).ToList(),
                     Translations = new Dictionary<string, CourseTranslationInfo>

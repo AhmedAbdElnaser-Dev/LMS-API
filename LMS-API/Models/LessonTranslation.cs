@@ -12,6 +12,9 @@ namespace LMS_API.Models
         public string Language { get; set; }
 
         [Required]
+        public string Title { get; set; }
+
+        [Required]
         public string Content { get; set; }
 
         [Required]

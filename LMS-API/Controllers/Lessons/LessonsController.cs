@@ -25,17 +25,14 @@ namespace LMS_API.Controllers.Lessons
         {
             var lesson = await _lessonService.CreateLessonAsync(
                 command.UnitId, 
-                command.Name, 
-                command.Description,
-                command.Content);
+                command.Title,
+                command.Description
+                );
 
             return Ok(new LessonViewModel
             {
                 Id = lesson.Id,
                 UnitId = lesson.UnitId,
-                //Name = lesson.Translations[0].Name,
-                //Description = lesson.Translations[0].Description,
-                Content = lesson.Translations[0].Content
             });
         }
 
@@ -44,17 +41,13 @@ namespace LMS_API.Controllers.Lessons
         {
             var lesson = await _lessonService.UpdateLessonAsync(
                 id,
-                command.Name,
-                command.Description,
-                command.Content);
+                command.Title,
+                command.Description);
 
             return Ok(new LessonViewModel
             {
                 Id = lesson.Id,
                 UnitId = lesson.UnitId,
-                //Name = lesson.Translations[0].Name,
-                //Description = lesson.Translations[0].Description,
-                Content = lesson.Translations[0].Content
             });
         }
 
@@ -62,14 +55,22 @@ namespace LMS_API.Controllers.Lessons
         public async Task<ActionResult<LessonViewModel>> GetLesson(Guid id)
         {
             var lesson = await _lessonService.GetLessonAsync(id);
-            return Ok(new LessonViewModel
+
+            var viewModel = new LessonViewModel
             {
                 Id = lesson.Id,
                 UnitId = lesson.UnitId,
-                //Name = lesson.Translations[0].Name,
-                //Description = lesson.Translations[0].Description,
-                Content = lesson.Translations[0].Content
-            });
+                Title = lesson.Title,
+                Description = lesson.Description,
+                Translations = lesson.Translations.Select(t => new LessonTranslationViewModel
+                {
+                    Id = t.Id,
+                    Language = t.Language,
+                    Content = t.Content
+                }).ToList()
+            };
+
+            return Ok(viewModel);
         }
 
         [HttpDelete("{id}")]
@@ -78,5 +79,34 @@ namespace LMS_API.Controllers.Lessons
             await _lessonService.DeleteLessonAsync(id);
             return NoContent();
         }
+
+        [HttpPost("translation")]
+        public async Task<ActionResult<LessonTranslationViewModel>> AddTranslation([FromBody] AddLessonTranslationCommand command)
+        {
+            var result = await _lessonService.AddTranslationAsync(command);
+
+            return Ok(new LessonTranslationViewModel
+            {
+                Id = result.Id,
+                Language = result.Language,
+                Title = result.Title,
+                Content = result.Content
+            });
+        }
+
+        [HttpPut("translation/{id}")]
+        public async Task<ActionResult<LessonTranslationViewModel>> UpdateTranslation(Guid id, [FromBody] EditLessonTranslationCommand command)
+        {
+            var result = await _lessonService.UpdateTranslationAsync(id, command);
+
+            return Ok(new LessonTranslationViewModel
+            {
+                Id = result.Id,
+                Language = result.Language,
+                Title = result.Title,
+                Content = result.Content
+            });
+        }
+
     }
 }

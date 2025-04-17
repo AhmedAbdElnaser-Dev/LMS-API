@@ -4,6 +4,7 @@ using LMS_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS_API.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20250416172333_indexUnitName")]
+    partial class indexUnitName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -592,11 +595,6 @@ namespace LMS_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -641,10 +639,6 @@ namespace LMS_API.Migrations
 
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -768,7 +762,7 @@ namespace LMS_API.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("Name", "CourseId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("Units");
@@ -789,7 +783,7 @@ namespace LMS_API.Migrations
 
                     b.Property<string>("Language")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -807,8 +801,7 @@ namespace LMS_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UnitId", "Language", "Name")
-                        .IsUnique();
+                    b.HasIndex("UnitId");
 
                     b.ToTable("UnitTranslations");
                 });
